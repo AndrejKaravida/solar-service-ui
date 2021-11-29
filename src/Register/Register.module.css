@@ -1,0 +1,23 @@
+.registerWrapper {
+    width: 500px;
+    height: 400px;
+    margin: 100px auto 0;
+    background-color: antiquewhite !important;
+}
+
+.inputElement {
+    display: flex;
+    margin: 30px auto;
+    width: 200px;
+}
+
+.registerButton {
+    width: 150px;
+    display: flex !important;
+    margin: 50px auto !important;
+}
+
+.registerText {
+    margin: 30px auto 20px;
+    text-align: center;
+}

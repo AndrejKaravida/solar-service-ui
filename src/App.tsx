@@ -1,7 +1,13 @@
 import React from "react";
+import { Login } from "./Login/Login";
+import { Register } from "./Register/Register";
 
 function App() {
-  return <div>Initial page</div>;
+  return (
+    <div>
+      <Register />
+    </div>
+  );
 }
 
 export default App;
