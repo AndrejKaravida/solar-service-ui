@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Solar service UI
 
 UI side of the solar side app. This application has been built using React. 
 
