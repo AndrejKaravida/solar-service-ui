@@ -1,13 +1,29 @@
 import { useState } from "react";
-import { Button, Card, Input } from "@mui/material";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Input from "@mui/material/Input";
 import styles from "./Login.module.css";
+import { cognitoSignIn } from "../services/authentication";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const onLoginHandler = () => {
-    console.log(email, password);
+  const onLoginHandler = async () => {
+    try {
+      await cognitoSignIn(email, password);
+      toast.success("Successfully logged in!");
+      navigate("/mainScreen");
+    } catch (e: any) {
+      toast.warning(e.message);
+    }
+  };
+
+  const goToRegister = () => {
+    navigate("/register");
   };
 
   return (
@@ -36,6 +52,17 @@ export const Login = () => {
       >
         Login
       </Button>
+      <div className="text-center">
+        <p>Don't have an account?</p>
+        <p>
+          {" "}
+          Click{" "}
+          <span onClick={goToRegister} className={styles.link}>
+            here
+          </span>{" "}
+          to register
+        </p>
+      </div>
     </Card>
   );
 };

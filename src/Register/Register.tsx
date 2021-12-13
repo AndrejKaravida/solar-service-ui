@@ -1,17 +1,35 @@
 import { useState } from "react";
-import { Button, Card, Input } from "@mui/material";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Input from "@mui/material/Input";
 import styles from "./Register.module.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { cognitoRegister } from "../services/authentication";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
-  const onRegisterHandler = () => {
+  const onRegisterHandler = async () => {
     if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
       return;
     }
-    console.log(email, password, confirmPassword);
+    const signUpResult = await cognitoRegister(email, password);
+    localStorage.setItem("userSub", signUpResult.userSub);
+    toast.success("You have successfully registered!");
+    goToVerification();
+  };
+
+  const goToLogin = () => {
+    navigate("/login");
+  };
+
+  const goToVerification = () => {
+    navigate("/verification");
   };
 
   return (
@@ -48,6 +66,17 @@ export const Register = () => {
       >
         Register
       </Button>
+      <div className="text-center">
+        <p>Already have an account?</p>
+        <p>
+          {" "}
+          Click{" "}
+          <span onClick={goToLogin} className={styles.link}>
+            here
+          </span>{" "}
+          to login
+        </p>
+      </div>
     </Card>
   );
 };
