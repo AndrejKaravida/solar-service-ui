@@ -20,6 +20,15 @@ export const cognitoVerifyUser = async (
   await Auth.confirmSignUp(userSub, verificationCode);
 };
 
+export const isLoggedIn = async () => {
+  try {
+    await Auth.currentAuthenticatedUser();
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
 export const getToken = async () => {
   let token = null;
   try {

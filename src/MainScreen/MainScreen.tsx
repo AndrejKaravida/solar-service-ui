@@ -8,6 +8,7 @@ import {
   fetchCurrentProduction,
   fetchProductionHistory,
 } from "../services/production";
+import { Header } from "../Header/Header";
 
 export const cities: IMarker[] = [
   { markerOffset: 0, name: "Belgrade", coordinates: [44.787197, 20.457273] },
@@ -29,29 +30,32 @@ export const MainScreen = () => {
   };
 
   return (
-    <Container>
-      <Row className={styles.mapWrapper}>
-        <MapChart markers={cities} />
-      </Row>
-      <Row className="pt-3">
-        <Col xs={4} className={"text-center"}>
-          <h4 className="mb-3">Available solar panels:</h4>
-          {cities.map((marker, index) => {
-            return (
-              <p key={index}>
-                {marker.name} - [{marker.coordinates[0]},{" "}
-                {marker.coordinates[1]}]
-              </p>
-            );
-          })}
-        </Col>
-        <Col xs={4}>
-          <Load city="London" />
-        </Col>
-        <Col xs={4}>
-          <History />
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <Row className={styles.mapWrapper}>
+          <MapChart markers={cities} />
+        </Row>
+        <Row className="pt-3">
+          <Col xs={4} className={"text-center"}>
+            <h4 className="mb-3">Available solar panels:</h4>
+            {cities.map((marker, index) => {
+              return (
+                <p key={index}>
+                  {marker.name} - [{marker.coordinates[0]},{" "}
+                  {marker.coordinates[1]}]
+                </p>
+              );
+            })}
+          </Col>
+          <Col xs={4}>
+            <Load city="London" />
+          </Col>
+          <Col xs={4}>
+            <History />
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };

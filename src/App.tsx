@@ -19,7 +19,6 @@ Amplify.configure({
 function App() {
   return (
     <div className={styles.backgroundImage}>
-      <Header />
       <Router>
         <Routes>
           <Route path={"/"} element={<Login />} />

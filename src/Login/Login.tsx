@@ -27,42 +27,44 @@ export const Login = () => {
   };
 
   return (
-    <Card variant={"outlined"} className={styles.loginWrapper}>
-      <h2 className={styles.loginText}>Login</h2>
-      <div className={styles.inputElement}>
-        <Input
-          type="text"
-          placeholder={"Email"}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className={styles.inputElement}>
-        <Input
-          type="password"
-          placeholder={"Password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <Button
-        variant={"contained"}
-        className={styles.loginButton}
-        onClick={onLoginHandler}
-      >
-        Login
-      </Button>
-      <div className="text-center">
-        <p>Don't have an account?</p>
-        <p>
-          {" "}
-          Click{" "}
-          <span onClick={goToRegister} className={styles.link}>
-            here
-          </span>{" "}
-          to register
-        </p>
-      </div>
-    </Card>
+    <div style={{ paddingTop: "200px" }}>
+      <Card variant={"outlined"} className={styles.loginWrapper}>
+        <h2 className={styles.loginText}>Login</h2>
+        <div className={styles.inputElement}>
+          <Input
+            type="text"
+            placeholder={"Email"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className={styles.inputElement}>
+          <Input
+            type="password"
+            placeholder={"Password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <Button
+          variant={"contained"}
+          className={styles.loginButton}
+          onClick={onLoginHandler}
+        >
+          Login
+        </Button>
+        <div className="text-center">
+          <p>Don't have an account?</p>
+          <p>
+            {" "}
+            Click{" "}
+            <span onClick={goToRegister} className={styles.link}>
+              here
+            </span>{" "}
+            to register
+          </p>
+        </div>
+      </Card>
+    </div>
   );
 };

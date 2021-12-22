@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .container {
   background-color: white;
   min-height: calc(100vh - 50px); /* 50px is header */
