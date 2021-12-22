@@ -1,11 +1,13 @@
-import { useEffect } from "react";
-import { getForecastPrivate } from "../services/forecast";
 import { MapChart } from "../MapChart/MapChart";
 import styles from "./MainScreen.module.css";
 import { IMarker } from "../Models/IMarker";
 import { Row, Col, Container } from "react-bootstrap";
 import { Load } from "../Load/Load";
 import { History } from "../History/History";
+import {
+  fetchCurrentProduction,
+  fetchProductionHistory,
+} from "../services/production";
 
 export const cities: IMarker[] = [
   { markerOffset: 0, name: "Belgrade", coordinates: [44.787197, 20.457273] },
@@ -16,14 +18,16 @@ export const cities: IMarker[] = [
 ];
 
 export const MainScreen = () => {
-  useEffect(() => {
-    async function getProtectedData() {
-      const response = await getForecastPrivate();
-      console.log(response);
-    }
+  const getCurrentProduction = async (city: string) => {
+    const response = await fetchCurrentProduction(city);
+    console.log(response);
+  };
 
-    // getProtectedData();
-  }, []);
+  const getProductionHistory = async (city: string) => {
+    const response = await fetchProductionHistory(city);
+    console.log(response);
+  };
+
   return (
     <Container>
       <Row className={styles.mapWrapper}>
