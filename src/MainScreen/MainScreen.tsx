@@ -9,19 +9,23 @@ import {
   fetchProductionHistory,
 } from "../services/production";
 import { Header } from "../Header/Header";
+import { useState } from "react";
 
-export const cities: IMarker[] = [
-  { markerOffset: 0, name: "Belgrade", coordinates: [44.787197, 20.457273] },
-  { markerOffset: 0, name: "Novi Sad", coordinates: [45.267136, 19.833549] },
-  { markerOffset: 0, name: "London", coordinates: [51.509865, -0.118092] },
-  { markerOffset: 0, name: "Paris", coordinates: [48.864716, 2.349014] },
-  { markerOffset: 0, name: "Berlin", coordinates: [52.520008, 13.404954] },
+const cities: IMarker[] = [
+  { markerOffset: 45, name: "Novi Sad", coordinates: [19.833549, 46.267136] },
+  { markerOffset: 45, name: "London", coordinates: [-3.018092, 53.509865] },
+  { markerOffset: 45, name: "Paris", coordinates: [2.394014, 48.864716] },
+  { markerOffset: 45, name: "Berlin", coordinates: [13.404954, 52.520008] },
+  { markerOffset: 45, name: "Milano", coordinates: [9.18854, 45.464664] },
 ];
 
 export const MainScreen = () => {
+  const [chosenCity, setChosenCity] = useState("");
+
   const getCurrentProduction = async (city: string) => {
-    const response = await fetchCurrentProduction(city);
-    console.log(response);
+    setChosenCity(city);
+    // const response = await fetchCurrentProduction(city);
+    // console.log(response);
   };
 
   const getProductionHistory = async (city: string) => {
@@ -34,7 +38,7 @@ export const MainScreen = () => {
       <Header />
       <Container>
         <Row className={styles.mapWrapper}>
-          <MapChart markers={cities} />
+          <MapChart onChooseCity={getCurrentProduction} markers={cities} />
         </Row>
         <Row className="pt-3">
           <Col xs={4} className={"text-center"}>
@@ -49,10 +53,10 @@ export const MainScreen = () => {
             })}
           </Col>
           <Col xs={4}>
-            <Load city="London" />
+            <Load city={chosenCity} />
           </Col>
           <Col xs={4}>
-            <History />
+            <History city={chosenCity} />
           </Col>
         </Row>
       </Container>

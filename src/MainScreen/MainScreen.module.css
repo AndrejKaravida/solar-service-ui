@@ -1,6 +1,6 @@
 .mapWrapper {
   height: 500px;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
   border: 2px dashed black;
 }
