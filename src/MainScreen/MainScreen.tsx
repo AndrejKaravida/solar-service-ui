@@ -21,11 +21,12 @@ const cities: IMarker[] = [
 
 export const MainScreen = () => {
   const [chosenCity, setChosenCity] = useState("");
+  const [currentProduction, setCurrentProduction] = useState(0);
 
   const getCurrentProduction = async (city: string) => {
     setChosenCity(city);
-    // const response = await fetchCurrentProduction(city);
-    // console.log(response);
+    const response = await fetchCurrentProduction(city);
+    setCurrentProduction(response.data.currentProduction);
   };
 
   const getProductionHistory = async (city: string) => {
@@ -53,7 +54,7 @@ export const MainScreen = () => {
             })}
           </Col>
           <Col xs={4}>
-            <Load city={chosenCity} />
+            <Load city={chosenCity} currentProduction={currentProduction} />
           </Col>
           <Col xs={4}>
             <History city={chosenCity} />
