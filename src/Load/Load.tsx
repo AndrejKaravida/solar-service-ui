@@ -12,7 +12,7 @@ export const Load = ({ city, currentProduction }: ILoadProps) => {
       {city.length > 0 ? (
         <>
           <h5>Solar panel: {city}</h5>
-          <h5>Current Load: {currentProduction} [W/m2]</h5>
+          <h5>Current Load: {currentProduction.toFixed(3)} [W/m2]</h5>
         </>
       ) : (
         <h5>Choose solar panel from the map...</h5>
