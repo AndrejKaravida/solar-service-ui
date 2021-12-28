@@ -10,6 +10,7 @@ import {
 } from "../services/production";
 import { Header } from "../Header/Header";
 import { useState } from "react";
+import { IMeasurementHistory } from "../Models/IMeasurementHistory";
 
 const cities: IMarker[] = [
   { markerOffset: 45, name: "Novi Sad", coordinates: [19.833549, 46.267136] },
@@ -22,6 +23,9 @@ const cities: IMarker[] = [
 export const MainScreen = () => {
   const [chosenCity, setChosenCity] = useState("");
   const [currentProduction, setCurrentProduction] = useState(0);
+  const [productionHistory, setProductionHistory] = useState<
+    IMeasurementHistory[]
+  >([]);
 
   const getCurrentProduction = async (city: string) => {
     setChosenCity(city);
@@ -31,7 +35,12 @@ export const MainScreen = () => {
 
   const getProductionHistory = async (city: string) => {
     const response = await fetchProductionHistory(city);
-    console.log(response);
+    setProductionHistory(response.data);
+  };
+
+  const onChooseCity = async (city: string) => {
+    getCurrentProduction(city);
+    getProductionHistory(city);
   };
 
   return (
@@ -39,25 +48,14 @@ export const MainScreen = () => {
       <Header />
       <Container>
         <Row className={styles.mapWrapper}>
-          <MapChart onChooseCity={getCurrentProduction} markers={cities} />
+          <MapChart onChooseCity={onChooseCity} markers={cities} />
         </Row>
         <Row className="pt-3">
-          <Col xs={4} className={"text-center"}>
-            <h4 className="mb-3">Available solar panels:</h4>
-            {cities.map((marker, index) => {
-              return (
-                <p key={index}>
-                  {marker.name} - [{marker.coordinates[0]},{" "}
-                  {marker.coordinates[1]}]
-                </p>
-              );
-            })}
-          </Col>
           <Col xs={4}>
             <Load city={chosenCity} currentProduction={currentProduction} />
           </Col>
-          <Col xs={4}>
-            <History city={chosenCity} />
+          <Col xs={8}>
+            <History productionHistory={productionHistory} />
           </Col>
         </Row>
       </Container>
