@@ -30,7 +30,7 @@ export const MainScreen = () => {
   const getCurrentProduction = async (city: string) => {
     setChosenCity(city);
     const response = await fetchCurrentProduction(city);
-    setCurrentProduction(response.data.currentProduction);
+    setCurrentProduction(response.data.production);
   };
 
   const getProductionHistory = async (city: string) => {

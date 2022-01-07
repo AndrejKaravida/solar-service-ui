@@ -1,3 +1,3 @@
 export interface IMeasurement {
-  currentProduction: number;
+  production: number;
 }
