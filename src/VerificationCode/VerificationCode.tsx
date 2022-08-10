@@ -22,12 +22,14 @@ export const VerificationCode = () => {
   };
 
   return (
-    <Card variant={"outlined"} className={styles.loginWrapper}>
-      <h2 className={styles.loginText}>Verification Code</h2>
-      <ReactCodeInput
-        className={styles.marginMiddle}
-        onComplete={onConfirmHandler}
-      />
-    </Card>
+    <div style={{ paddingTop: "100px" }}>
+      <Card variant={"outlined"} className={styles.loginWrapper}>
+        <h2 className={styles.loginText}>Verification Code</h2>
+        <ReactCodeInput
+          className={styles.marginMiddle}
+          onComplete={onConfirmHandler}
+        />
+      </Card>
+    </div>
   );
 };

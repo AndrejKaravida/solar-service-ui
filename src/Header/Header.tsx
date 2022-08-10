@@ -1,7 +1,8 @@
+import { AppBar, Box, Container, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { cognitoSignOut } from "../services/authentication";
-import styles from "./Header.module.css";
+import Button from "@mui/material/Button";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -17,15 +18,66 @@ export const Header = () => {
   };
 
   return (
-    <div className={styles.header}>
-      <p className={styles.name}>Solar panels</p>
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/mainScreen"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            SOLARITY
+          </Typography>
 
-      <p
-        className={`${styles.logout} ${styles.name} cursor-pointer`}
-        onClick={logout}
-      >
-        Logout
-      </p>
-    </div>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <Button
+              sx={{ my: 2, color: "white", display: "block", ml: "auto" }}
+              onClick={() => navigate("/mainScreen")}
+            >
+              Main Screen
+            </Button>
+            <Button
+              sx={{ my: 2, color: "white", display: "block" }}
+              onClick={() => navigate("/myInvestments")}
+            >
+              My Investments
+            </Button>{" "}
+            <Button
+              sx={{ my: 2, color: "white", display: "block" }}
+              onClick={() => navigate("/worldMap")}
+            >
+              World Map
+            </Button>
+            <Button
+              sx={{ my: 2, color: "white", display: "block" }}
+              onClick={() => navigate("/howItWorks")}
+            >
+              How It Works
+            </Button>
+            <Button
+              onClick={logout}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block",
+                marginLeft: "auto",
+              }}
+            >
+              Logout
+            </Button>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };

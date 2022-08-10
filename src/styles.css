@@ -1,13 +1,13 @@
 .text-center {
-  text-align: center;
+    text-align: center;
 }
 
 .cursor-pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .container {
-  background-color: white;
-  min-height: calc(100vh - 50px); /* 50px is header */
-  opacity: 0.9;
+    background-color: white;
+    min-height: calc(100vh - 69px); /* 69px is header */
+    opacity: 0.9;
 }

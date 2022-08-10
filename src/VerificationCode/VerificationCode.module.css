@@ -1,28 +1,29 @@
 .loginWrapper {
-  width: 500px;
-  height: 200px;
-  margin: 100px auto 0;
-  background-color: rgb(248, 240, 229) !important;
+    width: 500px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(248, 240, 229) !important;
 }
 
 .inputElement {
-  display: flex;
-  margin: 30px auto;
-  width: 200px;
+    display: flex;
+    margin: 30px auto;
+    width: 200px;
 }
 
 .loginButton {
-  width: 150px;
-  display: flex !important;
-  margin: 50px auto !important;
+    width: 150px;
+    display: flex !important;
+    margin: 50px auto !important;
 }
 
 .loginText {
-  margin: 30px auto 20px;
-  text-align: center;
+    margin: 30px auto 20px;
+    text-align: center;
 }
 
 .marginMiddle {
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }

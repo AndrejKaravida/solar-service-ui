@@ -1,5 +1,4 @@
-export interface IMeasurementHistory {
-  city: string;
+export interface IProductionHistory {
   date: Date;
   min: number;
   max: number;

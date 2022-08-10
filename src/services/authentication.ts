@@ -8,8 +8,21 @@ export const cognitoSignOut = async () => {
   await Auth.signOut();
 };
 
-export const cognitoRegister = async (username: string, password: string) => {
-  const signUpParams = { username, password, attributes: { email: username } };
+export const cognitoRegister = async (
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string
+) => {
+  const signUpParams = {
+    username: email,
+    password,
+    attributes: {
+      given_name: firstName,
+      family_name: lastName,
+      email: email,
+    },
+  };
   return await Auth.signUp(signUpParams);
 };
 
@@ -29,10 +42,18 @@ export const isLoggedIn = async () => {
   }
 };
 
+export const getCurrentUser = async () => {
+  try {
+    return Auth.currentAuthenticatedUser();
+  } catch (e) {
+    return null;
+  }
+};
+
 export const getToken = async () => {
   let token = null;
   try {
-    token = await (await Auth.currentSession()).getIdToken().getJwtToken();
+    token = (await Auth.currentSession()).getIdToken().getJwtToken();
   } catch (e) {}
   return token;
 };
