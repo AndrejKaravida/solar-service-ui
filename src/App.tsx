@@ -6,9 +6,11 @@ import { MainScreen } from "./MainScreen/MainScreen";
 import { VerificationCode } from "./VerificationCode/VerificationCode";
 import { MyInvestments } from "./MyInvestments/MyInvestments";
 import styles from "./App.module.css";
-import { Header } from "./Header/Header";
 import { WorldMap } from "./WorldMap/WorldMap";
 import { HowItWorks } from "./HowItWorks/HowItWorks";
+import { AuthProvider } from "./Authentication/AuthProvider";
+import { RequireAuth } from "./Authentication/RequireAuth";
+import { WithoutAuth } from "./Authentication/WithoutAuth";
 
 Amplify.configure({
   Auth: {
@@ -22,46 +24,76 @@ Amplify.configure({
 function App() {
   return (
     <div className={styles.backgroundImage}>
-      <Router>
-        <Routes>
-          <Route path={"/"} element={<Login />} />
-          <Route path={"/login"} element={<Login />} />
-          <Route path={"/register"} element={<Register />} />
-          <Route path={"/verification"} element={<VerificationCode />} />
-          <Route
-            path={"/mainScreen"}
-            element={
-              <>
-                <Header /> <MainScreen />{" "}
-              </>
-            }
-          />
-          <Route
-            path={"/myInvestments"}
-            element={
-              <>
-                <Header /> <MyInvestments />
-              </>
-            }
-          />{" "}
-          <Route
-            path={"/worldMap"}
-            element={
-              <>
-                <Header /> <WorldMap />
-              </>
-            }
-          />
-          <Route
-            path={"/howItWorks"}
-            element={
-              <>
-                <Header /> <HowItWorks />
-              </>
-            }
-          />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route
+              path={"/"}
+              element={
+                <WithoutAuth>
+                  <Login />
+                </WithoutAuth>
+              }
+            />
+            <Route
+              path={"/login"}
+              element={
+                <WithoutAuth>
+                  <Login />
+                </WithoutAuth>
+              }
+            />
+            <Route
+              path={"/register"}
+              element={
+                <WithoutAuth>
+                  <Register />
+                </WithoutAuth>
+              }
+            />
+            <Route
+              path={"/verification"}
+              element={
+                <WithoutAuth>
+                  <VerificationCode />
+                </WithoutAuth>
+              }
+            />
+            <Route
+              path={"/mainScreen"}
+              element={
+                <RequireAuth>
+                  <MainScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={"/myInvestments"}
+              element={
+                <RequireAuth>
+                  <MyInvestments />
+                </RequireAuth>
+              }
+            />{" "}
+            <Route
+              path={"/worldMap"}
+              element={
+                <RequireAuth>
+                  <WorldMap />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={"/howItWorks"}
+              element={
+                <RequireAuth>
+                  <HowItWorks />
+                </RequireAuth>
+              }
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }

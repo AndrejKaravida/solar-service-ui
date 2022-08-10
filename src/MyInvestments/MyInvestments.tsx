@@ -1,11 +1,26 @@
 import { Container } from "react-bootstrap";
 import { Investment } from "./Investment";
-import { Box } from "@mui/material";
-import { investments } from "../ReportModal/hardCodedData";
-import { SyntheticEvent, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
+import { SyntheticEvent, useEffect, useState } from "react";
+import { IInvestment } from "../Models/IInvestment";
+import { getAllUserInvestments } from "../services/investment.service";
+import { useNavigate } from "react-router-dom";
 
 export const MyInvestments = () => {
   const [accordionOpen, setAccordionOpen] = useState(0);
+  const [userInvestments, setUserInvestments] = useState<IInvestment[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUserInvestments = async () => {
+      const result = await getAllUserInvestments();
+      console.log(result);
+      if (result?.data) {
+        setUserInvestments(result.data);
+      }
+    };
+    getUserInvestments().then(() => {});
+  }, []);
 
   const handleAccordionOpenClose = (
     event: SyntheticEvent,
@@ -22,7 +37,22 @@ export const MyInvestments = () => {
   return (
     <Container>
       <Box sx={{ py: "10px", px: "20px" }}></Box>
-      {investments.map((investment, index) => (
+      {userInvestments.length === 0 && (
+        <>
+          <Typography sx={{ fontSize: "18px", textAlign: "center" }}>
+            You don't have any investments. Go to Main Screen and make on!
+          </Typography>
+          <Button
+            sx={{ mx: "auto", display: "flex", mt: "15px" }}
+            variant={"contained"}
+            onClick={() => navigate("/mainScreen")}
+          >
+            Back to Main Screen
+          </Button>
+        </>
+      )}
+
+      {userInvestments.map((investment, index) => (
         <Investment
           key={index}
           investment={investment}

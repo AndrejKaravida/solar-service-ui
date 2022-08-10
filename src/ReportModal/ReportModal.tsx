@@ -5,7 +5,8 @@ import { useState } from "react";
 import { ElectricBill } from "./ElectricBill";
 import { RoofSize } from "./RoofSize";
 import { toast } from "react-toastify";
-import { environmentalImpact1 } from "./hardCodedData";
+import { environmentalImpact1, investments } from "./hardCodedData";
+import { makeNewInvestment } from "../services/investment.service";
 
 interface IProps {
   isOpen: boolean;
@@ -18,7 +19,9 @@ export const ReportModal = (props: IProps) => {
 
   const solarPanelPrice = 160;
 
-  const makeInvestment = () => {
+  const makeInvestment = async () => {
+    await makeNewInvestment(investments[0]);
+
     props.onClose();
     toast.success(
       "Congratulations! You can view your investment under My Investments."

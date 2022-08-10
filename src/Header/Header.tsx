@@ -1,15 +1,16 @@
 import { AppBar, Box, Container, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { cognitoSignOut } from "../services/authentication";
 import Button from "@mui/material/Button";
+import { useAuth } from "../Authentication/useAuth";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const logout = async () => {
     try {
-      await cognitoSignOut();
+      await auth.signOut();
       navigate("/login");
       toast.success("Successfully logged out");
     } catch (e: any) {

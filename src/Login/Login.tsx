@@ -3,21 +3,20 @@ import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Input from "@mui/material/Input";
 import styles from "./Login.module.css";
-import { cognitoSignIn, getCurrentUser } from "../services/authentication";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Authentication/useAuth";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const onLoginHandler = async () => {
     try {
-      await cognitoSignIn(email, password);
+      await auth.signIn(email, password);
       toast.success("Successfully logged in!");
-      const user = await getCurrentUser();
-      console.log(user);
       navigate("/mainScreen");
     } catch (e: any) {
       toast.warning(e.message);

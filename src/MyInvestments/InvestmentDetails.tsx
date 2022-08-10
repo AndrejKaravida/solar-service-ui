@@ -17,7 +17,7 @@ export const InvestmentDetails = ({ investment }: IProps) => {
         Current production: <b> {investment.currentProduction} kW/h</b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
-        Built date: <b>{investment.date.toLocaleDateString()}</b>
+        Built date: <b>{investment.date}</b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
         Total money saved: <b>{investment.moneySaved}$</b>

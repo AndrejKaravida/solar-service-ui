@@ -17,7 +17,7 @@ export const InvestmentEnvironmentalImpact = (props: IProps) => {
 
       <Box style={{ marginTop: "15px" }}>
         {environmentalImpacts.map((impact, index) => (
-          <Row style={{ marginTop: "30px" }}>
+          <Row style={{ marginTop: "30px" }} key={index}>
             <Col xs={4}>
               <img src={impact.image} alt={"impact" + index} />
             </Col>
