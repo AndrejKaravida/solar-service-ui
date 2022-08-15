@@ -11,6 +11,9 @@ import { HowItWorks } from "./HowItWorks/HowItWorks";
 import { AuthProvider } from "./Authentication/AuthProvider";
 import { RequireAuth } from "./Authentication/RequireAuth";
 import { WithoutAuth } from "./Authentication/WithoutAuth";
+import { UserRole } from "./Models/IUser";
+import { AdminInvestments } from "./AdminInvestments/AdminInvestments";
+import { AddNewSolarPanel } from "./AdminPage/AddNewSolarPanel";
 
 Amplify.configure({
   Auth: {
@@ -62,7 +65,7 @@ function App() {
             <Route
               path={"/mainScreen"}
               element={
-                <RequireAuth>
+                <RequireAuth userRoles={[UserRole.USER]}>
                   <MainScreen />
                 </RequireAuth>
               }
@@ -70,15 +73,31 @@ function App() {
             <Route
               path={"/myInvestments"}
               element={
-                <RequireAuth>
+                <RequireAuth userRoles={[UserRole.USER]}>
                   <MyInvestments />
+                </RequireAuth>
+              }
+            />{" "}
+            <Route
+              path={"/investments"}
+              element={
+                <RequireAuth userRoles={[UserRole.ADMIN]}>
+                  <AdminInvestments />
+                </RequireAuth>
+              }
+            />{" "}
+            <Route
+              path={"/addNewPanel"}
+              element={
+                <RequireAuth userRoles={[UserRole.ADMIN]}>
+                  <AddNewSolarPanel />
                 </RequireAuth>
               }
             />{" "}
             <Route
               path={"/worldMap"}
               element={
-                <RequireAuth>
+                <RequireAuth userRoles={[UserRole.ADMIN, UserRole.USER]}>
                   <WorldMap />
                 </RequireAuth>
               }
@@ -86,7 +105,7 @@ function App() {
             <Route
               path={"/howItWorks"}
               element={
-                <RequireAuth>
+                <RequireAuth userRoles={[UserRole.ADMIN, UserRole.USER]}>
                   <HowItWorks />
                 </RequireAuth>
               }

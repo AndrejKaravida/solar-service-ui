@@ -1,7 +1,10 @@
 import { IEnvironmentalImpact } from "../Models/IEnvironmentalImpact";
 import { Box, Card, Divider, Typography } from "@mui/material";
 import { Col, Row } from "react-bootstrap";
-import { environmentalImpacts, getMetric } from "../ReportModal/impactUtils";
+import {
+  environmentalImpacts,
+  getMetricByEnv,
+} from "../ReportModal/impactUtils";
 
 interface IProps {
   environmentalImpact: IEnvironmentalImpact;
@@ -26,7 +29,7 @@ export const InvestmentEnvironmentalImpact = (props: IProps) => {
                 {impact.headlight}
               </Typography>
               <Typography sx={{ fontSize: "32px" }}>
-                {getMetric(impact.headlight, props.environmentalImpact)}
+                {getMetricByEnv(impact.headlight, props.environmentalImpact)}
               </Typography>
               <Typography sx={{ fontSize: "12px", color: "#757575" }}>
                 {impact.description}

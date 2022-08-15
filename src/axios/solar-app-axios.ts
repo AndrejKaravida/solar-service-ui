@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { toast } from "react-toastify";
-import { getToken } from "./authentication";
+import { getToken } from "../services/authentication.service";
 
 const SolarAppAxios: AxiosInstance = axios.create({
   baseURL: "http://localhost:5000/api/",

@@ -6,6 +6,7 @@ import { ReportModal } from "../ReportModal/ReportModal";
 
 export const MainScreen = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [city, setCity] = useState("");
 
   const checkRoof = () => {
     setIsModalOpen(true);
@@ -28,7 +29,9 @@ export const MainScreen = () => {
       <Row>
         <Box sx={{ textAlign: "center" }}>
           <TextField
-            label={"Enter you address"}
+            label={"Enter your city"}
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
             sx={{ display: "flex", ml: "auto", mr: "auto", width: "400px" }}
           ></TextField>
           <Button
@@ -49,7 +52,13 @@ export const MainScreen = () => {
         </Typography>
       </Row>
       <Steps />
-      <ReportModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {city.length > 0 && (
+        <ReportModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          city={city}
+        />
+      )}
     </Container>
   );
 };

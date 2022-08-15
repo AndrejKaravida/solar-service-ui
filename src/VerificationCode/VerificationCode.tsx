@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { cognitoVerifyUser } from "../services/authentication";
+import { cognitoVerifyUser } from "../services/authentication.service";
 import styles from "./VerificationCode.module.css";
 import { useNavigate } from "react-router-dom";
 import ReactCodeInput from "react-verification-code-input";

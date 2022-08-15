@@ -3,8 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import { useAuth } from "../Authentication/useAuth";
+import { UserRole } from "../Models/IUser";
+import { routes } from "./routes";
+import styles from "./Header.module.css";
 
-export const Header = () => {
+interface IProps {
+  userRole: UserRole;
+}
+
+export const Header = ({ userRole }: IProps) => {
   const navigate = useNavigate();
   const auth = useAuth();
 
@@ -22,58 +29,25 @@ export const Header = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/mainScreen"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
+          <Typography variant="h6" className={styles.appName}>
             SOLARITY
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              sx={{ my: 2, color: "white", display: "block", ml: "auto" }}
-              onClick={() => navigate("/mainScreen")}
-            >
-              Main Screen
-            </Button>
-            <Button
-              sx={{ my: 2, color: "white", display: "block" }}
-              onClick={() => navigate("/myInvestments")}
-            >
-              My Investments
-            </Button>{" "}
-            <Button
-              sx={{ my: 2, color: "white", display: "block" }}
-              onClick={() => navigate("/worldMap")}
-            >
-              World Map
-            </Button>
-            <Button
-              sx={{ my: 2, color: "white", display: "block" }}
-              onClick={() => navigate("/howItWorks")}
-            >
-              How It Works
-            </Button>
-            <Button
-              onClick={logout}
-              sx={{
-                my: 2,
-                color: "white",
-                display: "block",
-                marginLeft: "auto",
-              }}
-            >
+            {routes
+              .filter((route) => route.userRoles.includes(userRole))
+              .map((route, index) => (
+                <Button
+                  sx={{ ml: index === 0 ? "auto" : "" }}
+                  className={styles.routeLink}
+                  key={index}
+                  onClick={() => navigate(route.navigationPath)}
+                >
+                  {route.name}
+                </Button>
+              ))}
+
+            <Button onClick={logout} className={styles.logoutLink}>
               Logout
             </Button>
           </Box>

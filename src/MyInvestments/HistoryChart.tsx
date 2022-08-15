@@ -51,7 +51,7 @@ export const HistoryChart = () => {
     },
     yaxis: {
       title: {
-        text: "kWh",
+        text: "kW",
       },
     },
     fill: {

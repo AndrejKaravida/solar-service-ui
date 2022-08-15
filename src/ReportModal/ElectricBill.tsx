@@ -7,7 +7,7 @@ interface IProps {
 
 export const ElectricBill = (props: IProps) => {
   return (
-    <Card style={{ padding: "15px" }}>
+    <Card style={{ padding: "15px", height: "100%" }}>
       <Typography sx={{ textAlign: "center" }}>
         AVERAGE MONTHLY ELECTRIC BILL
       </Typography>

@@ -1,4 +1,4 @@
-import { SolarAppAxios } from "./solar-app-axios";
+import { SolarAppAxios } from "../axios/solar-app-axios";
 import { IInvestment } from "../Models/IInvestment";
 import { AxiosResponse } from "axios";
 

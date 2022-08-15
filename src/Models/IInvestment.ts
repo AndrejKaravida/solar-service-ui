@@ -1,16 +1,13 @@
-import { IProductionHistory } from "./IProductionHistory";
+import { ISolarPanel } from "./ISolarPanel";
 import { IEnvironmentalImpact } from "./IEnvironmentalImpact";
 
 export interface IInvestment {
-  userId: string;
-  address: string;
-  price: number;
+  _id?: string;
+  userId?: string;
+  city: string;
   date: Date;
-  moneySaved: number;
-  kwhGenerated: number;
-  currentProduction: number;
-  productionHistory: IProductionHistory[];
   roofSize: number;
-  monthlyBillPrice: number;
+  solarPanel: ISolarPanel;
   environmentalImpact: IEnvironmentalImpact;
+  monthlyBillPrice: number;
 }

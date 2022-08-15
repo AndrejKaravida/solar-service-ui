@@ -17,7 +17,6 @@ export const Login = () => {
     try {
       await auth.signIn(email, password);
       toast.success("Successfully logged in!");
-      navigate("/mainScreen");
     } catch (e: any) {
       toast.warning(e.message);
     }

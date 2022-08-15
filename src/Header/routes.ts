@@ -1,0 +1,34 @@
+import { UserRole } from "../Models/IUser";
+
+export const routes = [
+  {
+    name: "Main Screen",
+    navigationPath: "/mainScreen",
+    userRoles: [UserRole.USER],
+  },
+  {
+    name: "Add new Panel",
+    navigationPath: "/addNewPanel",
+    userRoles: [UserRole.ADMIN],
+  },
+  {
+    name: "Investments",
+    navigationPath: "/investments",
+    userRoles: [UserRole.ADMIN],
+  },
+  {
+    name: "My Investments",
+    navigationPath: "/myInvestments",
+    userRoles: [UserRole.USER],
+  },
+  {
+    name: "World Map",
+    navigationPath: "/worldMap",
+    userRoles: [UserRole.USER, UserRole.ADMIN],
+  },
+  {
+    name: "How it works",
+    navigationPath: "/howItWorks",
+    userRoles: [UserRole.USER, UserRole.ADMIN],
+  },
+];

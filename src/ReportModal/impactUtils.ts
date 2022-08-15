@@ -21,7 +21,21 @@ export const environmentalImpacts = [
   },
 ];
 
-export const getMetric = (
+export const getMetric = (impactName: string, investmentPower: number) => {
+  switch (impactName) {
+    case "Carbon dioxide": {
+      return investmentPower * 0.8;
+    }
+    case "Passenger cars": {
+      return investmentPower * 0.2;
+    }
+    case "Tree seedlings": {
+      return investmentPower * 20.3;
+    }
+  }
+};
+
+export const getMetricByEnv = (
   impactName: string,
   environmentalImpact: IEnvironmentalImpact
 ) => {

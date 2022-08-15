@@ -1,0 +1,24 @@
+.wrapper {
+    width: 500px;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(248, 240, 259, 0.4) !important;
+}
+
+.inputElement {
+    display: flex;
+    margin: 30px auto;
+    width: 200px;
+}
+
+.addButton {
+    width: 150px;
+    display: flex !important;
+    margin: 50px auto !important;
+}
+
+.headline {
+    margin: 30px auto 20px;
+    text-align: center;
+}

@@ -5,7 +5,7 @@ import Input from "@mui/material/Input";
 import styles from "./Register.module.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { cognitoRegister } from "../services/authentication";
+import { cognitoRegister } from "../services/authentication.service";
 
 export const Register = () => {
   const [firstName, setFirstName] = useState("");

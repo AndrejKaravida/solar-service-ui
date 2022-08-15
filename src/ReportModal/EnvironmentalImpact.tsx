@@ -1,15 +1,14 @@
 import { Card, Divider, Typography } from "@mui/material";
 import { Col, Row } from "react-bootstrap";
-import { IEnvironmentalImpact } from "../Models/IEnvironmentalImpact";
 import { environmentalImpacts, getMetric } from "./impactUtils";
 
 interface IProps {
-  environmentalImpact: IEnvironmentalImpact;
+  investmentPower: number;
 }
 
-export const EnvironmentalImpact = (props: IProps) => {
+export const EnvironmentalImpact = ({ investmentPower }: IProps) => {
   return (
-    <Card style={{ padding: "15px" }}>
+    <Card style={{ padding: "15px", marginTop: "25px" }}>
       <Typography sx={{ textAlign: "center" }}>
         POTENTIAL ENVIRONMENTAL IMPACT:
       </Typography>
@@ -27,7 +26,7 @@ export const EnvironmentalImpact = (props: IProps) => {
                   {impact.headlight}
                 </Typography>
                 <Typography sx={{ fontSize: "32px" }}>
-                  {getMetric(impact.headlight, props.environmentalImpact)}
+                  {getMetric(impact.headlight, investmentPower)}
                 </Typography>
                 <Typography sx={{ fontSize: "12px", color: "#757575" }}>
                   {impact.description}
