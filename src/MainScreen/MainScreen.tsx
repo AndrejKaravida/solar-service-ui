@@ -3,13 +3,31 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Steps } from "./Steps";
 import { ReportModal } from "../ReportModal/ReportModal";
+import axios from "axios";
+import { toast } from "react-toastify";
+import _upperFirst from "lodash/upperFirst";
 
 export const MainScreen = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [city, setCity] = useState("");
 
-  const checkRoof = () => {
-    setIsModalOpen(true);
+  const checkRoof = async () => {
+    if (city.length > 0) {
+      const key = process.env.REACT_APP_WEATHER_API_KEY;
+      const apiLink = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${city}&aqi=no`;
+      try {
+        const response = await axios.get(apiLink);
+        const cityExists = response.status === 200;
+        if (cityExists) {
+          await setCity(_upperFirst(city));
+          setIsModalOpen(true);
+        } else {
+          toast.warning("Please enter valid city");
+        }
+      } catch (e) {
+        toast.warning("Please enter valid city");
+      }
+    }
   };
 
   return (

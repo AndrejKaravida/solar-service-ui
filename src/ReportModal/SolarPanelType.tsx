@@ -17,7 +17,9 @@ interface IProps {
 export const SolarPanelType = (props: IProps) => {
   const getMenuItems = () => {
     return props.allSolarPanels.map((solarPanelType, index) => (
-      <MenuItem value={solarPanelType.name}>{solarPanelType.name}</MenuItem>
+      <MenuItem key={index} value={solarPanelType.name}>
+        {solarPanelType.name}
+      </MenuItem>
     ));
   };
 
