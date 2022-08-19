@@ -14,6 +14,8 @@ import { WithoutAuth } from "./Authentication/WithoutAuth";
 import { UserRole } from "./Models/IUser";
 import { AdminInvestments } from "./AdminInvestments/AdminInvestments";
 import { AddNewSolarPanel } from "./AdminPage/AddNewSolarPanel";
+import { InvestmentCalculation } from "./InvestmentCalculation/InvestmentCalculation";
+import { HeaderAdder } from "./Authentication/HeaderAdder";
 
 Amplify.configure({
   Auth: {
@@ -65,9 +67,9 @@ function App() {
             <Route
               path={"/mainScreen"}
               element={
-                <RequireAuth userRoles={[UserRole.USER]}>
+                <HeaderAdder>
                   <MainScreen />
-                </RequireAuth>
+                </HeaderAdder>
               }
             />
             <Route
@@ -76,6 +78,14 @@ function App() {
                 <RequireAuth userRoles={[UserRole.USER]}>
                   <MyInvestments />
                 </RequireAuth>
+              }
+            />{" "}
+            <Route
+              path={"/investmentCalculation/:city"}
+              element={
+                <HeaderAdder>
+                  <InvestmentCalculation />
+                </HeaderAdder>
               }
             />{" "}
             <Route
@@ -105,9 +115,9 @@ function App() {
             <Route
               path={"/howItWorks"}
               element={
-                <RequireAuth userRoles={[UserRole.ADMIN, UserRole.USER]}>
+                <HeaderAdder>
                   <HowItWorks />
-                </RequireAuth>
+                </HeaderAdder>
               }
             />
           </Routes>

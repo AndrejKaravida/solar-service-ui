@@ -3,11 +3,13 @@ import { Box, Card, Divider, Typography } from "@mui/material";
 import { Col, Row } from "react-bootstrap";
 import {
   environmentalImpacts,
+  getMetric,
   getMetricByEnv,
-} from "../ReportModal/impactUtils";
+} from "../utils/impactUtils";
 
 interface IProps {
-  environmentalImpact: IEnvironmentalImpact;
+  environmentalImpact?: IEnvironmentalImpact;
+  investmentPower?: number;
 }
 
 export const InvestmentEnvironmentalImpact = (props: IProps) => {
@@ -29,7 +31,10 @@ export const InvestmentEnvironmentalImpact = (props: IProps) => {
                 {impact.headlight}
               </Typography>
               <Typography sx={{ fontSize: "32px" }}>
-                {getMetricByEnv(impact.headlight, props.environmentalImpact)}
+                {props.environmentalImpact &&
+                  getMetricByEnv(impact.headlight, props.environmentalImpact)}
+                {props.investmentPower &&
+                  getMetric(impact.headlight, props.investmentPower)}
               </Typography>
               <Typography sx={{ fontSize: "12px", color: "#757575" }}>
                 {impact.description}

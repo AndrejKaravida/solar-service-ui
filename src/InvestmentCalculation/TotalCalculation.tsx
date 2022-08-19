@@ -1,27 +1,33 @@
 import { Typography } from "@mui/material";
 import Card from "@mui/material/Card";
+import { getElectricBillFromKwhUsage } from "../utils/usageUtils";
 
 interface IProps {
   solarPanelPower: number;
   solarPanelPrice: number;
   roofSize: string;
-  electricBill: string;
+  kWhUsage: string;
 }
 
 export const TotalCalculation = ({
   roofSize,
   solarPanelPrice,
   solarPanelPower,
-  electricBill,
+  kWhUsage,
 }: IProps) => {
   const getInvestmentPower = (): number => {
     return (solarPanelPower * +roofSize) / 1000;
   };
 
+  const electricBill = getElectricBillFromKwhUsage(+kWhUsage);
+
   return (
     <Card
-      style={{ padding: "15px", marginTop: "25px", backgroundColor: "#90EE90" }}
+      style={{ padding: "15px", backgroundColor: "#90EE90", height: "100%" }}
     >
+      <Typography sx={{ textAlign: "center" }}>
+        Your average monthly bill: <b>{Math.round(electricBill)}$</b>{" "}
+      </Typography>{" "}
       <Typography sx={{ textAlign: "center", mt: "10px" }}>
         Solar panel:{" "}
         <b>
@@ -52,7 +58,8 @@ export const TotalCalculation = ({
           mt: "20px",
         }}
       >
-        {20 * 12 * +electricBill - +roofSize * solarPanelPrice}$ savings
+        {Math.round(20 * 12 * +electricBill - +roofSize * solarPanelPrice)}$
+        savings
       </Typography>
       <Typography
         sx={{ fontSize: "14px", textAlign: "center", marginBottom: "30px" }}

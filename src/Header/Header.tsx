@@ -15,6 +15,8 @@ export const Header = ({ userRole }: IProps) => {
   const navigate = useNavigate();
   const auth = useAuth();
 
+  console.log(auth.user);
+
   const logout = async () => {
     try {
       await auth.signOut();
@@ -22,6 +24,18 @@ export const Header = ({ userRole }: IProps) => {
       toast.success("Successfully logged out");
     } catch (e: any) {
       toast.error("Error while signing out");
+    }
+  };
+
+  const getRouteSx = (index: number) => {
+    if (auth.user) {
+      return {
+        ml: index === 0 ? "auto" : "",
+      };
+    } else {
+      return {
+        ml: index === 0 ? "auto" : "",
+      };
     }
   };
 
@@ -33,12 +47,12 @@ export const Header = ({ userRole }: IProps) => {
             SOLARITY
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: "flex", ml: "auto", mr: "auto" }}>
             {routes
               .filter((route) => route.userRoles.includes(userRole))
               .map((route, index) => (
                 <Button
-                  sx={{ ml: index === 0 ? "auto" : "" }}
+                  // sx={getRouteSx(index)}
                   className={styles.routeLink}
                   key={index}
                   onClick={() => navigate(route.navigationPath)}
@@ -46,11 +60,12 @@ export const Header = ({ userRole }: IProps) => {
                   {route.name}
                 </Button>
               ))}
-
+          </Box>
+          {auth.user && (
             <Button onClick={logout} className={styles.logoutLink}>
               Logout
             </Button>
-          </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

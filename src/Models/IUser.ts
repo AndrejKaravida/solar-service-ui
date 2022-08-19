@@ -6,4 +6,5 @@ export interface IUser {
 export enum UserRole {
   USER = "user",
   ADMIN = "admin",
+  UNAUTHORIZED = "unauthorized",
 }

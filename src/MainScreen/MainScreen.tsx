@@ -2,30 +2,20 @@ import { Container, Row } from "react-bootstrap";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Steps } from "./Steps";
-import { ReportModal } from "../ReportModal/ReportModal";
-import axios from "axios";
-import { toast } from "react-toastify";
-import _upperFirst from "lodash/upperFirst";
+import { verifyCity } from "../utils/verifyCity";
+import { useNavigate } from "react-router-dom";
 
 export const MainScreen = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [city, setCity] = useState("");
+
+  const navigate = useNavigate();
 
   const checkRoof = async () => {
     if (city.length > 0) {
-      const key = process.env.REACT_APP_WEATHER_API_KEY;
-      const apiLink = `http://api.weatherapi.com/v1/current.json?key=${key}&q=${city}&aqi=no`;
-      try {
-        const response = await axios.get(apiLink);
-        const cityExists = response.status === 200;
-        if (cityExists) {
-          await setCity(_upperFirst(city));
-          setIsModalOpen(true);
-        } else {
-          toast.warning("Please enter valid city");
-        }
-      } catch (e) {
-        toast.warning("Please enter valid city");
+      const verifiedCity = await verifyCity(city);
+      if (verifiedCity) {
+        setCity(verifiedCity);
+        navigate("/investmentCalculation/" + verifiedCity);
       }
     }
   };
@@ -70,13 +60,6 @@ export const MainScreen = () => {
         </Typography>
       </Row>
       <Steps />
-      {city.length > 0 && (
-        <ReportModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          city={city}
-        />
-      )}
     </Container>
   );
 };

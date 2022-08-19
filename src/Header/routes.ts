@@ -4,7 +4,7 @@ export const routes = [
   {
     name: "Main Screen",
     navigationPath: "/mainScreen",
-    userRoles: [UserRole.USER],
+    userRoles: [UserRole.USER, UserRole.UNAUTHORIZED],
   },
   {
     name: "Add new Panel",
@@ -29,6 +29,6 @@ export const routes = [
   {
     name: "How it works",
     navigationPath: "/howItWorks",
-    userRoles: [UserRole.USER, UserRole.ADMIN],
+    userRoles: [UserRole.USER, UserRole.ADMIN, UserRole.UNAUTHORIZED],
   },
 ];

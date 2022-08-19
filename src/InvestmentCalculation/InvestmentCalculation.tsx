@@ -1,30 +1,45 @@
-import { Box, Button } from "@mui/material";
-import { Col, Modal, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { ElectricBill } from "./ElectricBill";
-import { RoofSize } from "./RoofSize";
-import { toast } from "react-toastify";
-import { makeNewInvestment } from "../services/investment.service";
-import { IInvestment } from "../Models/IInvestment";
-import { SolarPanelType } from "./SolarPanelType";
 import { ISolarPanel } from "../Models/ISolarPanel";
-import { TotalCalculation } from "./TotalCalculation";
 import { getAllPanels } from "../services/solarpanels.service";
-import { EnvironmentalImpact } from "./EnvironmentalImpact";
+import { getElectricBillFromKwhUsage } from "../utils/usageUtils";
+import { IInvestment } from "../Models/IInvestment";
+import { makeNewInvestment } from "../services/investment.service";
+import { toast } from "react-toastify";
+import { Col, Container, Row } from "react-bootstrap";
+import { Box, Button, Typography } from "@mui/material";
+import { KwHUsage } from "./KwHUsage";
+import { RoofSize } from "./RoofSize";
+import { SolarPanelType } from "./SolarPanelType";
+import { InvestmentEnvironmentalImpact } from "../MyInvestments/InvestmentEnvironmentalImpact";
+import { TotalCalculation } from "./TotalCalculation";
+import { useNavigate, useParams } from "react-router-dom";
+import { verifyCity } from "../utils/verifyCity";
 
-interface IProps {
-  isOpen: boolean;
-  onClose: () => void;
-  city: string;
-}
-
-export const ReportModal = (props: IProps) => {
-  const [electricBill, setElectricBill] = useState("50");
+export const InvestmentCalculation = () => {
+  const [kWhUsage, setKWhUsage] = useState("200");
   const [roofSize, setRoofSize] = useState("20");
   const [allSolarPanels, setAllSolarPanels] = useState<ISolarPanel[]>([]);
   const [solarPanelType, setSolarPanelType] = useState<ISolarPanel | null>(
     null
   );
+
+  const navigate = useNavigate();
+  const { city } = useParams();
+
+  useEffect(() => {
+    const cityVerifier = async () => {
+      if (city) {
+        const verifiedCity = verifyCity(city);
+        if (!verifiedCity) {
+          navigate("/mainScreen");
+        }
+      } else {
+        navigate("/mainScreen");
+      }
+    };
+
+    cityVerifier().then(() => {});
+  }, [city, navigate]);
 
   useEffect(() => {
     const getSolarPanelTypes = async () => {
@@ -43,9 +58,10 @@ export const ReportModal = (props: IProps) => {
     if (!solarPanelType) {
       return;
     }
+    const electricBill = getElectricBillFromKwhUsage(+kWhUsage);
     const investmentPower = getInvestmentPower();
     const newInvestment: IInvestment = {
-      monthlyBillPrice: +electricBill,
+      monthlyBillPrice: electricBill,
       roofSize: +roofSize,
       environmentalImpact: {
         carbonDioxide: (investmentPower * 0.8).toString(),
@@ -54,15 +70,15 @@ export const ReportModal = (props: IProps) => {
       },
       date: new Date(),
       solarPanel: solarPanelType,
-      city: props.city,
+      city: city ?? "",
     };
 
     await makeNewInvestment(newInvestment);
 
-    props.onClose();
     toast.success(
       "Congratulations! You can view your investment under My Investments."
     );
+    navigate("myInvestment");
   };
 
   const getInvestmentPower = (): number => {
@@ -74,19 +90,12 @@ export const ReportModal = (props: IProps) => {
   };
 
   return (
-    <Modal show={props.isOpen} onHide={props.onClose} size={"xl"}>
-      <Modal.Header closeButton>
-        <Modal.Title style={{ marginLeft: "auto" }}>
-          Saving estimations for {props.city}
-        </Modal.Title>
-      </Modal.Header>
+    <Container>
+      <Typography>Saving estimations for {city} </Typography>
       <Box sx={{ p: "30px" }}>
         <Row>
           <Col>
-            <ElectricBill
-              electricBill={electricBill}
-              setElectricBill={setElectricBill}
-            />
+            <KwHUsage kwhUsage={kWhUsage} setKwhUsage={setKWhUsage} />
           </Col>
           <Col>
             <RoofSize roofSize={roofSize} setRoofSize={setRoofSize} />
@@ -99,13 +108,15 @@ export const ReportModal = (props: IProps) => {
             />
           </Col>
         </Row>
-        <Row>
-          <Col xs={7}>
-            <EnvironmentalImpact investmentPower={getInvestmentPower()} />
+        <Row style={{ marginTop: "25px" }}>
+          <Col xs={4}>
+            <InvestmentEnvironmentalImpact
+              investmentPower={getInvestmentPower()}
+            />
           </Col>
-          <Col xs={5}>
+          <Col xs={8}>
             <TotalCalculation
-              electricBill={electricBill}
+              kWhUsage={kWhUsage}
               solarPanelPower={solarPanelType?.power ?? 0}
               solarPanelPrice={solarPanelType?.price ?? 0}
               roofSize={roofSize}
@@ -118,9 +129,9 @@ export const ReportModal = (props: IProps) => {
             <Button
               variant={"outlined"}
               sx={{ width: "200px", height: "40px" }}
-              onClick={props.onClose}
+              onClick={() => navigate("Main Screen")}
             >
-              Close
+              Back to Main Screen
             </Button>
           </Col>
           <Col style={{ textAlign: "center" }}>
@@ -134,6 +145,6 @@ export const ReportModal = (props: IProps) => {
           </Col>
         </Row>
       </Box>
-    </Modal>
+    </Container>
   );
 };

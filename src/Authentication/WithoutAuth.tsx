@@ -1,6 +1,7 @@
 import { useAuth } from "./useAuth";
 import { Navigate, useLocation } from "react-router-dom";
 import { UserRole } from "../Models/IUser";
+import { Header } from "../Header/Header";
 
 export const WithoutAuth = ({ children }: { children: JSX.Element }) => {
   let auth = useAuth();
@@ -12,5 +13,10 @@ export const WithoutAuth = ({ children }: { children: JSX.Element }) => {
     return <Navigate to={navigationPath} state={{ from: location }} replace />;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <Header userRole={UserRole.UNAUTHORIZED} />
+      {children}
+    </>
+  );
 };
