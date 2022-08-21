@@ -9,7 +9,7 @@ export const blueZoneMargin = 1600; // 351 - 1600 kWh
 
 const dollarCurrency = 118; //1 dollar = 118 rsd
 
-export const getElectricBillFromKwhUsage = (kwHUsage: number) => {
+export const getElectricBillFromKwhUsage = (kwHUsage: number): number => {
   const energySpentInGreenZone =
     greenZoneMargin > kwHUsage ? kwHUsage : greenZoneMargin;
 
@@ -31,5 +31,49 @@ export const getElectricBillFromKwhUsage = (kwHUsage: number) => {
     energySpentInRedZone * redZonePrice +
     fixedPrice;
 
-  return priceInRsD / dollarCurrency;
+  return +(priceInRsD / dollarCurrency).toFixed(0);
+};
+
+export const calculateInvestmentPowerInKwH = (
+  numberOfPanels: number,
+  hoursOfSunlight: number,
+  solarPanelPower: number
+) => {
+  const dailyWattHours = numberOfPanels * hoursOfSunlight * solarPanelPower;
+
+  const monthlyWattHours = dailyWattHours * 30;
+
+  return monthlyWattHours / 1000;
+};
+
+export const calculateInvestmentPowerInKw = (
+  numberOfPanels: number,
+  solarPanelPower: number
+) => {
+  const powerInW = numberOfPanels * solarPanelPower;
+
+  return powerInW / 1000;
+};
+
+export const calculateInstallationPrice = (
+  numberOfPanels: number,
+  solarPanelPrice: number
+) => {
+  return (numberOfPanels * solarPanelPrice).toFixed(0);
+};
+
+export const calculateElectricalUsageFor10Years = (electricalBill: number) => {
+  return (electricalBill * 12 * 10).toFixed(0);
+};
+
+export const calculateNumberOfPanelsNeeded = (
+  solarPanelPower: number,
+  kwhUsage: number,
+  hoursOfSunlight: number
+) => {
+  const dailyPower = hoursOfSunlight * solarPanelPower;
+
+  const monthlyWattHours = kwhUsage * 1000;
+
+  return Math.ceil(monthlyWattHours / dailyPower / 30);
 };

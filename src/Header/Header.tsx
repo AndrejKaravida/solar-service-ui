@@ -15,8 +15,6 @@ export const Header = ({ userRole }: IProps) => {
   const navigate = useNavigate();
   const auth = useAuth();
 
-  console.log(auth.user);
-
   const logout = async () => {
     try {
       await auth.signOut();
@@ -27,16 +25,12 @@ export const Header = ({ userRole }: IProps) => {
     }
   };
 
-  const getRouteSx = (index: number) => {
-    if (auth.user) {
-      return {
-        ml: index === 0 ? "auto" : "",
-      };
-    } else {
-      return {
-        ml: index === 0 ? "auto" : "",
-      };
-    }
+  const login = () => {
+    navigate("/login");
+  };
+
+  const register = () => {
+    navigate("/register");
   };
 
   return (
@@ -46,13 +40,11 @@ export const Header = ({ userRole }: IProps) => {
           <Typography variant="h6" className={styles.appName}>
             SOLARITY
           </Typography>
-
           <Box sx={{ display: "flex", ml: "auto", mr: "auto" }}>
             {routes
               .filter((route) => route.userRoles.includes(userRole))
               .map((route, index) => (
                 <Button
-                  // sx={getRouteSx(index)}
                   className={styles.routeLink}
                   key={index}
                   onClick={() => navigate(route.navigationPath)}
@@ -65,6 +57,16 @@ export const Header = ({ userRole }: IProps) => {
             <Button onClick={logout} className={styles.logoutLink}>
               Logout
             </Button>
+          )}{" "}
+          {!auth.user && (
+            <>
+              <Button onClick={login} className={styles.logoutLink}>
+                Login
+              </Button>{" "}
+              <Button onClick={register} className={styles.logoutLink}>
+                Register
+              </Button>
+            </>
           )}
         </Toolbar>
       </Container>

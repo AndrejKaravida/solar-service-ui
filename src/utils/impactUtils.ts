@@ -24,14 +24,16 @@ export const environmentalImpacts = [
 export const getMetric = (impactName: string, investmentPower: number) => {
   switch (impactName) {
     case "Carbon dioxide": {
-      return investmentPower * 0.8;
+      return (investmentPower * 0.8).toFixed(2);
     }
     case "Passenger cars": {
-      return investmentPower * 0.2;
+      return (investmentPower * 0.2).toFixed(2);
     }
     case "Tree seedlings": {
-      return investmentPower * 20.3;
+      return (investmentPower * 20.3).toFixed(2);
     }
+    default:
+      return 0;
   }
 };
 

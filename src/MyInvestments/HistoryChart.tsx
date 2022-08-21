@@ -1,4 +1,4 @@
-import Chart from "react-apexcharts";
+// import Chart from "react-apexcharts";
 import { Card, Divider, Typography } from "@mui/material";
 
 export const HistoryChart = () => {
@@ -63,7 +63,7 @@ export const HistoryChart = () => {
     <Card sx={{ mb: "20px", p: "15px", height: "100%" }}>
       <Typography sx={{ textAlign: "center" }}>PRODUCTION HISTORY:</Typography>
       <Divider />
-      <Chart options={options} series={series} type="bar" height={350} />
+      {/*<Chart options={options} series={series} type="bar" height={350} />*/}
     </Card>
   );
 };

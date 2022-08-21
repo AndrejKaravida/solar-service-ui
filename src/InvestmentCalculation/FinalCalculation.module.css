@@ -1,0 +1,23 @@
+.upfrontCost {
+    color: #db4437;
+    font-size: 60px !important;
+    text-align: center;
+}
+
+.costDescription {
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.costWithoutSolar {
+    color: #755692;
+    font-size: 60px !important;
+    text-align: center;
+}
+
+.costSavings {
+    color: #286f05;
+    font-size: 60px !important;
+    text-align: center;
+}

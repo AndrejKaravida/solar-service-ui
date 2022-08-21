@@ -1,45 +1,60 @@
 import { useEffect, useState } from "react";
 import { ISolarPanel } from "../Models/ISolarPanel";
 import { getAllPanels } from "../services/solarpanels.service";
-import { getElectricBillFromKwhUsage } from "../utils/usageUtils";
+import {
+  calculateElectricalUsageFor10Years,
+  calculateInstallationPrice,
+  calculateInvestmentPowerInKw,
+  calculateNumberOfPanelsNeeded,
+  getElectricBillFromKwhUsage,
+} from "../utils/usageUtils";
 import { IInvestment } from "../Models/IInvestment";
 import { makeNewInvestment } from "../services/investment.service";
 import { toast } from "react-toastify";
 import { Col, Container, Row } from "react-bootstrap";
 import { Box, Button, Typography } from "@mui/material";
 import { KwHUsage } from "./KwHUsage";
-import { RoofSize } from "./RoofSize";
+import { Installation } from "./Installation";
 import { SolarPanelType } from "./SolarPanelType";
 import { InvestmentEnvironmentalImpact } from "../MyInvestments/InvestmentEnvironmentalImpact";
 import { TotalCalculation } from "./TotalCalculation";
 import { useNavigate, useParams } from "react-router-dom";
 import { verifyCity } from "../utils/verifyCity";
+import { useAuth } from "../Authentication/useAuth";
+import { ICity } from "../Models/ICity";
+import { FinalCalculation } from "./FinalCalculation";
+import { getMetric } from "../utils/impactUtils";
 
 export const InvestmentCalculation = () => {
-  const [kWhUsage, setKWhUsage] = useState("200");
-  const [roofSize, setRoofSize] = useState("20");
+  const [city, setCity] = useState<ICity | null>(null);
+  const [kWhUsage, setKWhUsage] = useState(200);
+  const [numberOfPanels, setNumberOfPanels] = useState(7);
+  const [hoursOfSunlight, setHoursOfSunlight] = useState(5);
   const [allSolarPanels, setAllSolarPanels] = useState<ISolarPanel[]>([]);
-  const [solarPanelType, setSolarPanelType] = useState<ISolarPanel | null>(
-    null
-  );
+  const [selectedSolarPanel, setSelectedSolarPanel] = useState<string>("");
+
+  const { user } = useAuth();
 
   const navigate = useNavigate();
-  const { city } = useParams();
+  const params = useParams();
+
+  const cityName = params.city;
 
   useEffect(() => {
     const cityVerifier = async () => {
-      if (city) {
-        const verifiedCity = verifyCity(city);
+      if (cityName) {
+        const verifiedCity = await verifyCity(cityName);
         if (!verifiedCity) {
           navigate("/mainScreen");
         }
+        setCity(verifiedCity);
       } else {
         navigate("/mainScreen");
       }
     };
 
     cityVerifier().then(() => {});
-  }, [city, navigate]);
+  }, [cityName, navigate]);
 
   useEffect(() => {
     const getSolarPanelTypes = async () => {
@@ -47,30 +62,43 @@ export const InvestmentCalculation = () => {
       if (result.data) {
         setAllSolarPanels(result.data);
         if (result.data.length > 0) {
-          setSolarPanelType(result.data[0]);
+          setSelectedSolarPanel(result.data[0].name);
         }
       }
     };
     getSolarPanelTypes().then(() => {});
   }, []);
 
+  const getSelectedSolarPanel = () => {
+    return allSolarPanels.find((panel) => panel.name === selectedSolarPanel);
+  };
+
   const makeInvestment = async () => {
-    if (!solarPanelType) {
+    const solarPanel = getSelectedSolarPanel();
+    if (!solarPanel || !city || !user) {
       return;
     }
     const electricBill = getElectricBillFromKwhUsage(+kWhUsage);
     const investmentPower = getInvestmentPower();
+    const savings =
+      +calculateElectricalUsageFor10Years(electricBill) -
+      +calculateInstallationPrice(numberOfPanels, solarPanel.price);
+    const cost = +calculateInstallationPrice(numberOfPanels, solarPanel.price);
     const newInvestment: IInvestment = {
       monthlyBillPrice: electricBill,
-      roofSize: +roofSize,
       environmentalImpact: {
-        carbonDioxide: (investmentPower * 0.8).toString(),
-        passengerCars: (investmentPower * 0.2).toString(),
-        treeSeedlings: (investmentPower * 20.3).toString(),
+        carbonDioxide: getMetric("Carbon dioxide", investmentPower).toString(),
+        passengerCars: getMetric("Passenger cars", investmentPower).toString(),
+        treeSeedlings: getMetric("Tree seedlings", investmentPower).toString(),
       },
       date: new Date(),
-      solarPanel: solarPanelType,
-      city: city ?? "",
+      moneySaved: savings,
+      power: investmentPower,
+      user: user,
+      cost: cost,
+      solarPanel: solarPanel,
+      numberOfPanels: numberOfPanels,
+      city: city,
     };
 
     await makeNewInvestment(newInvestment);
@@ -78,33 +106,93 @@ export const InvestmentCalculation = () => {
     toast.success(
       "Congratulations! You can view your investment under My Investments."
     );
-    navigate("myInvestment");
+    navigate("/myInvestments");
   };
 
   const getInvestmentPower = (): number => {
-    if (!solarPanelType) {
+    const solarPanel = getSelectedSolarPanel();
+    if (!solarPanel) {
       return 0;
     }
 
-    return (solarPanelType.power * +roofSize) / 1000;
+    return calculateInvestmentPowerInKw(numberOfPanels, solarPanel.power);
+  };
+
+  const hoursOfSunlightChangeHandler = (newHoursOfSunlight: number) => {
+    const solarPanel = getSelectedSolarPanel();
+
+    if (!solarPanel) {
+      return;
+    }
+
+    setHoursOfSunlight(newHoursOfSunlight);
+
+    const numberOfPanels = calculateNumberOfPanelsNeeded(
+      solarPanel.power,
+      kWhUsage,
+      newHoursOfSunlight
+    );
+
+    setNumberOfPanels(numberOfPanels);
+  };
+
+  const kwhUsageChangeHandler = (kwhUsage: number) => {
+    const solarPanel = getSelectedSolarPanel();
+
+    if (!solarPanel) {
+      return;
+    }
+
+    setKWhUsage(kwhUsage);
+
+    const numberOfPanels = calculateNumberOfPanelsNeeded(
+      solarPanel.power,
+      kwhUsage,
+      hoursOfSunlight
+    );
+
+    setNumberOfPanels(numberOfPanels);
   };
 
   return (
     <Container>
-      <Typography>Saving estimations for {city} </Typography>
+      <Typography
+        sx={{
+          textAlign: "center",
+          fontSize: "24px",
+          fontWeight: "500",
+          pt: "20px",
+        }}
+      >
+        Saving estimations for {cityName}{" "}
+      </Typography>
       <Box sx={{ p: "30px" }}>
         <Row>
           <Col>
-            <KwHUsage kwhUsage={kWhUsage} setKwhUsage={setKWhUsage} />
-          </Col>
-          <Col>
-            <RoofSize roofSize={roofSize} setRoofSize={setRoofSize} />
+            <KwHUsage kwhUsage={kWhUsage} setKwhUsage={kwhUsageChangeHandler} />
           </Col>
           <Col>
             <SolarPanelType
               allSolarPanels={allSolarPanels}
-              solarPanelType={solarPanelType}
-              setSolarPanelType={setSolarPanelType}
+              selectedSolarPanel={selectedSolarPanel}
+              setSelectedSolarPanel={setSelectedSolarPanel}
+            />
+          </Col>
+          <Col>
+            <Installation
+              numberOfPanels={numberOfPanels}
+              hoursOfSunlight={hoursOfSunlight}
+              solarPanelPower={getSelectedSolarPanel()?.power ?? 0}
+              setHoursOfSunlight={hoursOfSunlightChangeHandler}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <FinalCalculation
+              numberOfPanels={numberOfPanels}
+              solarPanelPrice={getSelectedSolarPanel()?.price ?? 0}
+              kWhUsage={kWhUsage}
             />
           </Col>
         </Row>
@@ -117,9 +205,10 @@ export const InvestmentCalculation = () => {
           <Col xs={8}>
             <TotalCalculation
               kWhUsage={kWhUsage}
-              solarPanelPower={solarPanelType?.power ?? 0}
-              solarPanelPrice={solarPanelType?.price ?? 0}
-              roofSize={roofSize}
+              solarPanelPower={getSelectedSolarPanel()?.power ?? 0}
+              solarPanelPrice={getSelectedSolarPanel()?.price ?? 0}
+              hoursOfSunlight={hoursOfSunlight}
+              numberOfPanels={numberOfPanels}
             />
           </Col>
         </Row>
@@ -137,11 +226,17 @@ export const InvestmentCalculation = () => {
           <Col style={{ textAlign: "center" }}>
             <Button
               onClick={makeInvestment}
+              disabled={!user}
               sx={{ width: "200px", height: "40px" }}
               variant={"contained"}
             >
               Make investment
             </Button>
+            {!user && (
+              <Typography sx={{ color: "red" }}>
+                You need to be logged in to make an investment.
+              </Typography>
+            )}
           </Col>
         </Row>
       </Box>

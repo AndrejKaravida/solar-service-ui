@@ -6,7 +6,7 @@ import { MainScreen } from "./MainScreen/MainScreen";
 import { VerificationCode } from "./VerificationCode/VerificationCode";
 import { MyInvestments } from "./MyInvestments/MyInvestments";
 import styles from "./App.module.css";
-import { WorldMap } from "./WorldMap/WorldMap";
+import { Map } from "./Map/Map";
 import { HowItWorks } from "./HowItWorks/HowItWorks";
 import { AuthProvider } from "./Authentication/AuthProvider";
 import { RequireAuth } from "./Authentication/RequireAuth";
@@ -105,10 +105,10 @@ function App() {
               }
             />{" "}
             <Route
-              path={"/worldMap"}
+              path={"/map"}
               element={
                 <RequireAuth userRoles={[UserRole.ADMIN, UserRole.USER]}>
-                  <WorldMap />
+                  <Map />
                 </RequireAuth>
               }
             />

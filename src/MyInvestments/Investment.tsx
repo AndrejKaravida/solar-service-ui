@@ -33,7 +33,7 @@ export const Investment = (props: IProps) => {
     <Accordion expanded={props.isOpen} onChange={props.onChange}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography sx={{ ml: "auto", mr: "auto", fontSize: "18px" }}>
-          Investment No. {props.number} in <b>{props.investment.city}</b>
+          Investment No. {props.number} in <b>{props.investment.city.name}</b>
         </Typography>
       </AccordionSummary>
       <AccordionDetails>

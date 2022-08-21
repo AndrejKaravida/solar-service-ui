@@ -22,8 +22,8 @@ export const routes = [
     userRoles: [UserRole.USER],
   },
   {
-    name: "World Map",
-    navigationPath: "/worldMap",
+    name: "Map",
+    navigationPath: "/map",
     userRoles: [UserRole.USER, UserRole.ADMIN],
   },
   {

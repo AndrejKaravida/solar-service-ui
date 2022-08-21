@@ -1,0 +1,16 @@
+.estimateCost {
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    margin-bottom: 4px !important;
+}
+
+.estimateDescription {
+    font-size: 13px !important;
+    font-weight: 300 !important;
+}
+
+.estimatePrice {
+    font-size: 20px !important;
+    color: #757575 !important;
+    text-align: right;
+}

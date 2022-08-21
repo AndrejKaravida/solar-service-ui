@@ -14,7 +14,6 @@ export const MyInvestments = () => {
   useEffect(() => {
     const getUserInvestments = async () => {
       const result = await getAllUserInvestments();
-      console.log(result);
       if (result?.data) {
         setUserInvestments(result.data);
       }

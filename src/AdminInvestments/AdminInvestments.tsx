@@ -60,9 +60,8 @@ export const AdminInvestments = () => {
   const rows = investments.map((investment, index) => ({
     id: index,
     number: index + 1,
-    cost: investment.roofSize * investment.solarPanel.price + " $",
-    installationPower:
-      (investment.roofSize * investment.solarPanel.power) / 1000 + "kW",
+    cost: 0 + " $",
+    installationPower: 0 + "kW",
     solarPanelName: investment.solarPanel.name,
     date: new Date(investment.date).toLocaleDateString(),
     city: investment.city,

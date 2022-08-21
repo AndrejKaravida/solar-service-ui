@@ -4,18 +4,20 @@ import { useState } from "react";
 import { Steps } from "./Steps";
 import { verifyCity } from "../utils/verifyCity";
 import { useNavigate } from "react-router-dom";
+import { ICity } from "../Models/ICity";
 
 export const MainScreen = () => {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState<ICity | null>(null);
+  const [cityName, setCityName] = useState<string>("");
 
   const navigate = useNavigate();
 
   const checkRoof = async () => {
-    if (city.length > 0) {
-      const verifiedCity = await verifyCity(city);
+    if (cityName.length > 0) {
+      const verifiedCity = await verifyCity(cityName);
       if (verifiedCity) {
         setCity(verifiedCity);
-        navigate("/investmentCalculation/" + verifiedCity);
+        navigate("/investmentCalculation/" + verifiedCity.name);
       }
     }
   };
@@ -39,7 +41,7 @@ export const MainScreen = () => {
           <TextField
             label={"Enter your city"}
             value={city}
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e) => setCityName(e.target.value)}
             sx={{ display: "flex", ml: "auto", mr: "auto", width: "400px" }}
           ></TextField>
           <Button

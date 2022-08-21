@@ -11,16 +11,22 @@ export const InvestmentDetails = ({ investment }: IProps) => {
       <Typography sx={{ textAlign: "center" }}>INVESTMENT DETAILS:</Typography>
       <Divider />
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
-        Investment cost: <b>{investment.roofSize * 150}$</b>
+        Investment cost:{" "}
+        <b>
+          {investment.cost} {" $"}
+        </b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
-        Current production: <b> 128 kW/h</b>
+        Current production: <b> TO BE ADDED</b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
-        Built date: <b>{investment.date}</b>
+        Built date: <b>{new Date(investment.date).toLocaleDateString()}</b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
-        Total money saved: <b>2600 $</b>
+        Total money saved:{" "}
+        <b>
+          {investment.moneySaved} {" $"}
+        </b>
       </Typography>
     </Card>
   );

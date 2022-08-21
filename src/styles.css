@@ -11,3 +11,8 @@
     min-height: calc(100vh - 69px); /* 69px is header */
     opacity: 0.9;
 }
+
+.leaflet-container {
+    width: 100%;
+    height: calc(100vh - 145px)
+}

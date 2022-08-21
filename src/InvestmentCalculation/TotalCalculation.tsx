@@ -1,71 +1,129 @@
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
-import { getElectricBillFromKwhUsage } from "../utils/usageUtils";
+import {
+  calculateElectricalUsageFor10Years,
+  calculateInstallationPrice,
+  calculateInvestmentPowerInKw,
+  calculateInvestmentPowerInKwH,
+  getElectricBillFromKwhUsage,
+} from "../utils/usageUtils";
+import { Col, Row } from "react-bootstrap";
+import styles from "./TotalCalculation.module.css";
 
 interface IProps {
   solarPanelPower: number;
   solarPanelPrice: number;
-  roofSize: string;
-  kWhUsage: string;
+  kWhUsage: number;
+  numberOfPanels: number;
+  hoursOfSunlight: number;
 }
 
-export const TotalCalculation = ({
-  roofSize,
-  solarPanelPrice,
-  solarPanelPower,
-  kWhUsage,
-}: IProps) => {
-  const getInvestmentPower = (): number => {
-    return (solarPanelPower * +roofSize) / 1000;
-  };
+export const TotalCalculation = (props: IProps) => {
+  const electricBill = getElectricBillFromKwhUsage(props.kWhUsage);
+  const investmentPowerInKwH = calculateInvestmentPowerInKwH(
+    props.numberOfPanels,
+    props.hoursOfSunlight,
+    props.solarPanelPower
+  );
 
-  const electricBill = getElectricBillFromKwhUsage(+kWhUsage);
+  const investmentPowerInKW = calculateInvestmentPowerInKw(
+    props.numberOfPanels,
+    props.solarPanelPower
+  );
 
   return (
     <Card
-      style={{ padding: "15px", backgroundColor: "#90EE90", height: "100%" }}
+      style={{ padding: "35px", backgroundColor: "#90EE90", height: "100%" }}
     >
-      <Typography sx={{ textAlign: "center" }}>
-        Your average monthly bill: <b>{Math.round(electricBill)}$</b>{" "}
-      </Typography>{" "}
-      <Typography sx={{ textAlign: "center", mt: "10px" }}>
-        Solar panel:{" "}
-        <b>
-          {solarPanelPower}W / {solarPanelPrice}$
-        </b>{" "}
-      </Typography>
-      <Typography sx={{ textAlign: "center" }}>
-        Number of panels: <b>{roofSize}</b>{" "}
-      </Typography>{" "}
-      <Typography sx={{ textAlign: "center" }}>
-        Total investment power: <b>{getInvestmentPower()}kW</b>{" "}
-      </Typography>
-      <Typography
-        sx={{
-          fontSize: "18px",
-          textAlign: "center",
-          fontWeight: "500",
-          mt: "20px",
-        }}
-      >
-        Price: {roofSize} * {solarPanelPrice}$ = {+roofSize * solarPanelPrice}$
-      </Typography>
-      <Typography
-        sx={{
-          fontSize: "24px",
-          textAlign: "center",
-          fontWeight: "600",
-          mt: "20px",
-        }}
-      >
-        {Math.round(20 * 12 * +electricBill - +roofSize * solarPanelPrice)}$
-        savings
-      </Typography>
-      <Typography
-        sx={{ fontSize: "14px", textAlign: "center", marginBottom: "30px" }}
-      >
-        Estimated net savings for your roof over 20 years
-      </Typography>
+      <Row style={{ marginBottom: "30px" }}>
+        <Col>
+          <Typography className={styles.estimateCost}>
+            Up-front cost of installation
+          </Typography>
+          <Typography className={styles.estimateDescription}>
+            Based on {investmentPowerInKW} kW installation.{" "}
+          </Typography>
+        </Col>
+        <Col>
+          <Typography className={styles.estimatePrice}>
+            ${" "}
+            {calculateInstallationPrice(
+              props.numberOfPanels,
+              props.solarPanelPrice
+            )}
+          </Typography>
+        </Col>
+      </Row>
+      <Row style={{ marginBottom: "30px" }}>
+        <Col>
+          <Typography className={styles.estimateCost}>
+            Total payments over 10 years
+          </Typography>
+          <Typography className={styles.estimateDescription}>
+            Modern solar arrays use micro-inverters and should require no
+            maintenance during their first 10 years.
+          </Typography>
+        </Col>
+        <Col>
+          <Typography className={styles.estimatePrice}>${" 0"}</Typography>
+        </Col>
+      </Row>
+      <Divider></Divider>
+      <Row style={{ marginBottom: "30px" }}>
+        <Col>
+          <Typography className={styles.estimateCost}>
+            Total 10-year cost with solar
+          </Typography>
+          <Typography className={styles.estimateDescription}>
+            Includes above costs.
+          </Typography>
+        </Col>
+        <Col>
+          <Typography className={styles.estimatePrice}>
+            ${" "}
+            {calculateInstallationPrice(
+              props.numberOfPanels,
+              props.solarPanelPrice
+            )}
+          </Typography>
+        </Col>
+      </Row>{" "}
+      <Row style={{ marginBottom: "30px" }}>
+        <Col>
+          <Typography className={styles.estimateCost}>
+            Total 10-year cost without solar
+          </Typography>
+          <Typography className={styles.estimateDescription}>
+            Assumes only electrical prices.
+          </Typography>
+        </Col>
+        <Col>
+          <Typography className={styles.estimatePrice}>
+            $ {calculateElectricalUsageFor10Years(electricBill)}
+          </Typography>
+        </Col>
+      </Row>
+      <Divider></Divider>
+      <Row style={{ marginBottom: "30px" }}>
+        <Col>
+          <Typography className={styles.estimateCost}>
+            Total 10-year savings:
+          </Typography>
+          <Typography className={styles.estimateDescription}>
+            Net value.
+          </Typography>
+        </Col>
+        <Col>
+          <Typography className={styles.estimatePrice}>
+            ${" "}
+            {+calculateElectricalUsageFor10Years(electricBill) -
+              +calculateInstallationPrice(
+                props.numberOfPanels,
+                props.solarPanelPrice
+              )}
+          </Typography>
+        </Col>
+      </Row>
     </Card>
   );
 };
