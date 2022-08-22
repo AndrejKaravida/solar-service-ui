@@ -4,6 +4,7 @@ import icon from "../images/solar-panel-2.png";
 import L from "leaflet";
 import { IInvestment } from "../Models/IInvestment";
 import { InvestmentCard } from "./InvestmentCard";
+import { useEffect, useRef } from "react";
 
 interface IProps {
   investments: IInvestment[];
@@ -11,6 +12,26 @@ interface IProps {
 }
 
 export const LeafletMap = (props: IProps) => {
+  const markersRef = useRef<any>([]);
+
+  useEffect(() => {
+    markersRef.current = markersRef.current.slice(0, props.investments.length);
+  }, [props.investments]);
+
+  useEffect(() => {
+    if (props.investmentSelected) {
+      const markerIndex = props.investments.findIndex(
+        (x) => x._id === props.investmentSelected
+      );
+      if (markerIndex > -1) {
+        const marker = markersRef.current[markerIndex];
+        if (marker) {
+          marker.openPopup();
+        }
+      }
+    }
+  }, [props.investmentSelected]);
+
   L.Marker.prototype.options.icon = L.icon({
     iconUrl: icon,
     iconSize: [30, 30],
@@ -19,7 +40,11 @@ export const LeafletMap = (props: IProps) => {
 
   const getMarkers = () => {
     return props.investments.map((investment, index) => (
-      <Marker key={index} position={[investment.city.lat, investment.city.lon]}>
+      <Marker
+        ref={(el) => (markersRef.current[index] = el)}
+        key={index}
+        position={[investment.city.lat, investment.city.lon]}
+      >
         <Popup>
           <InvestmentCard investment={investment} />
         </Popup>
