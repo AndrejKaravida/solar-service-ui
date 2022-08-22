@@ -4,7 +4,6 @@ import {
   calculateElectricalUsageFor10Years,
   calculateInstallationPrice,
   calculateInvestmentPowerInKw,
-  calculateInvestmentPowerInKwH,
   getElectricBillFromKwhUsage,
 } from "../utils/usageUtils";
 import { Col, Row } from "react-bootstrap";
@@ -20,11 +19,6 @@ interface IProps {
 
 export const TotalCalculation = (props: IProps) => {
   const electricBill = getElectricBillFromKwhUsage(props.kWhUsage);
-  const investmentPowerInKwH = calculateInvestmentPowerInKwH(
-    props.numberOfPanels,
-    props.hoursOfSunlight,
-    props.solarPanelPower
-  );
 
   const investmentPowerInKW = calculateInvestmentPowerInKw(
     props.numberOfPanels,

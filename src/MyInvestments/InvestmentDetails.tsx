@@ -22,8 +22,7 @@ export const InvestmentDetails = ({ investment }: IProps) => {
         const production = result.data;
 
         if (production) {
-          console.log(production);
-          // setCurrentProduction(production);
+          setCurrentProduction(production.power);
         }
       } catch (e) {
         console.log(e);
@@ -43,7 +42,7 @@ export const InvestmentDetails = ({ investment }: IProps) => {
         </b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
-        Current production: <b> {currentProduction}</b>
+        Current production: <b> {currentProduction} W</b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
         Built date: <b>{new Date(investment.date).toLocaleDateString()}</b>

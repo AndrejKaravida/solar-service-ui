@@ -17,7 +17,6 @@ export const Map = () => {
       const result = await getAllInvestments();
       if (result?.data) {
         setInvestments(result.data);
-        console.log(result.data);
       }
     };
     getInvestments().then(() => {});

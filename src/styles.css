@@ -8,7 +8,7 @@
 
 .container {
     background-color: white;
-    min-height: calc(100vh - 69px); /* 69px is header */
+    min-height: calc(100vh - 64px); /* 69px is header */
     opacity: 0.9;
 }
 

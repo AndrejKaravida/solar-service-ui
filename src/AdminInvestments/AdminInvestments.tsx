@@ -12,39 +12,44 @@ export const AdminInvestments = () => {
       const result = await getAllInvestments();
       if (result?.data) {
         setInvestments(result.data);
-        console.log(result.data);
       }
     };
     getInvestments().then(() => {});
   }, []);
 
   const columns: GridColDef[] = [
-    { field: "number", headerName: "No.", width: 70, headerAlign: "center" },
+    {
+      field: "number",
+      headerName: "No.",
+      width: 70,
+      headerAlign: "center",
+      align: "center",
+    },
     {
       field: "city",
       headerName: "Location City",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "date",
       headerName: "Date Created",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "solarPanelName",
       headerName: "Solar Panel Name",
-      width: 200,
+      width: 150,
       headerAlign: "center",
       align: "center",
     },
     {
-      field: "solarPanelPower",
-      headerName: "Solar Panel Power",
-      width: 140,
+      field: "installationPower",
+      headerName: "Power",
+      width: 100,
       headerAlign: "center",
       align: "center",
     },
@@ -55,16 +60,24 @@ export const AdminInvestments = () => {
       headerAlign: "center",
       align: "center",
     },
+    {
+      field: "user",
+      headerName: "User",
+      width: 170,
+      headerAlign: "center",
+      align: "center",
+    },
   ];
 
   const rows = investments.map((investment, index) => ({
     id: index,
     number: index + 1,
-    cost: 0 + " $",
-    installationPower: 0 + "kW",
+    cost: investment.cost + " $",
+    installationPower: investment.power + "kW",
     solarPanelName: investment.solarPanel.name,
     date: new Date(investment.date).toLocaleDateString(),
-    city: investment.city,
+    city: investment.city.name,
+    user: investment.user.firstName + " " + investment.user.lastName,
   }));
 
   return (

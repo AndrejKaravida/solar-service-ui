@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const createUser = async (): Promise<IUser | null> => {
     const user = await getCurrentUser();
-    console.log(user);
     if (!user) {
       return null;
     }

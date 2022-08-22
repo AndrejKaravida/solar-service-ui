@@ -30,7 +30,7 @@ export const LeafletMap = (props: IProps) => {
         }
       }
     }
-  }, [props.investmentSelected]);
+  }, [props.investmentSelected, props.investments]);
 
   L.Marker.prototype.options.icon = L.icon({
     iconUrl: icon,

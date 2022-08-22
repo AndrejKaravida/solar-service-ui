@@ -12,7 +12,6 @@ export const verifyCity: (city: string) => Promise<null | ICity> = async (
     const response = await axios.get(apiLink);
     const cityExists = response.status === 200;
     if (cityExists) {
-      console.log(response);
       if (response.data.location.country !== "Serbia") {
         toast.warning("Only cities in Serbia are supported.");
         return null;
