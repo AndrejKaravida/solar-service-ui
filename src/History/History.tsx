@@ -1,4 +1,4 @@
-// import { IMeasurementHistory } from "../Models/IProductionHistory";
+// import { IMeasurementHistory } from "../Models/IHistory";
 
 interface IHistoryProps {
   // productionHistory: IMeasurementHistory[];
