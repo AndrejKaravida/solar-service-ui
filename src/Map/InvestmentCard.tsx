@@ -72,7 +72,7 @@ export const InvestmentCard = ({
         Power: <b>{investment.power} kW</b>
       </Typography>
       <Typography>
-        Current: <b>{currentProduction} W</b>
+        Current: <b>{currentProduction} kW/h</b>
       </Typography>
       <Typography>
         Price:{" "}

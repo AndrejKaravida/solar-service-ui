@@ -42,7 +42,7 @@ export const InvestmentDetails = ({ investment }: IProps) => {
         </b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
-        Current production: <b> {currentProduction} W</b>
+        Current production: <b> {currentProduction} kW/h</b>
       </Typography>
       <Typography sx={{ mt: "15px", fontSize: "18px" }}>
         Built date: <b>{new Date(investment.date).toLocaleDateString()}</b>

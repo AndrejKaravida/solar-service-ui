@@ -48,7 +48,9 @@ export const SolarPanelType = (props: IProps) => {
         height: "100%",
       }}
     >
-      <Typography sx={{ textAlign: "center" }}>SOLAR PANELS</Typography>
+      <Typography sx={{ textAlign: "center" }}>
+        2. CHOOSE SOLAR PANEL
+      </Typography>
       <Divider />
       <Box
         sx={{

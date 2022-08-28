@@ -54,7 +54,7 @@ export const Installation = (props: IProps) => {
 
   return (
     <Card style={{ padding: "15px", height: "100%" }}>
-      <Typography sx={{ textAlign: "center" }}>INSTALLATION</Typography>
+      <Typography sx={{ textAlign: "center" }}>3. INSTALLATION</Typography>
       <Divider />
 
       <Box sx={{ display: "flex", alignItems: "center", ml: "20px" }}>

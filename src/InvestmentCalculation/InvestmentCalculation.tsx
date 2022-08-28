@@ -58,16 +58,22 @@ export const InvestmentCalculation = () => {
 
   useEffect(() => {
     const getSolarPanelTypes = async () => {
-      const result = await getAllPanels();
-      if (result.data) {
-        setAllSolarPanels(result.data);
-        if (result.data.length > 0) {
-          setSelectedSolarPanel(result.data[0].name);
+      try {
+        const result = await getAllPanels();
+        if (result.data) {
+          setAllSolarPanels(result.data);
+          if (result.data.length > 0) {
+            setSelectedSolarPanel(result.data[0].name);
+          }
         }
-      }
+      } catch (e) {}
     };
     getSolarPanelTypes().then(() => {});
   }, []);
+
+  useEffect(() => {
+    recalculateNumberOfPanels();
+  }, [kWhUsage, hoursOfSunlight, selectedSolarPanel]);
 
   const getSelectedSolarPanel = () => {
     return allSolarPanels.find((panel) => panel.name === selectedSolarPanel);
@@ -118,36 +124,16 @@ export const InvestmentCalculation = () => {
     return calculateInvestmentPowerInKw(numberOfPanels, solarPanel.power);
   };
 
-  const hoursOfSunlightChangeHandler = (newHoursOfSunlight: number) => {
+  const recalculateNumberOfPanels = () => {
     const solarPanel = getSelectedSolarPanel();
 
     if (!solarPanel) {
       return;
     }
-
-    setHoursOfSunlight(newHoursOfSunlight);
 
     const numberOfPanels = calculateNumberOfPanelsNeeded(
       solarPanel.power,
       kWhUsage,
-      newHoursOfSunlight
-    );
-
-    setNumberOfPanels(numberOfPanels);
-  };
-
-  const kwhUsageChangeHandler = (kwhUsage: number) => {
-    const solarPanel = getSelectedSolarPanel();
-
-    if (!solarPanel) {
-      return;
-    }
-
-    setKWhUsage(kwhUsage);
-
-    const numberOfPanels = calculateNumberOfPanelsNeeded(
-      solarPanel.power,
-      kwhUsage,
       hoursOfSunlight
     );
 
@@ -169,7 +155,7 @@ export const InvestmentCalculation = () => {
       <Box sx={{ p: "30px" }}>
         <Row>
           <Col>
-            <KwHUsage kwhUsage={kWhUsage} setKwhUsage={kwhUsageChangeHandler} />
+            <KwHUsage kwhUsage={kWhUsage} setKwhUsage={setKWhUsage} />
           </Col>
           <Col>
             <SolarPanelType
@@ -183,7 +169,7 @@ export const InvestmentCalculation = () => {
               numberOfPanels={numberOfPanels}
               hoursOfSunlight={hoursOfSunlight}
               solarPanelPower={getSelectedSolarPanel()?.power ?? 0}
-              setHoursOfSunlight={hoursOfSunlightChangeHandler}
+              setHoursOfSunlight={setHoursOfSunlight}
             />
           </Col>
         </Row>

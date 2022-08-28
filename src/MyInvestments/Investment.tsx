@@ -8,10 +8,10 @@ import {
 import { IInvestment } from "../Models/IInvestment";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Col, Row } from "react-bootstrap";
-import { HistoryChart } from "./HistoryChart";
 import { InvestmentDetails } from "./InvestmentDetails";
 import { SyntheticEvent } from "react";
 import { InvestmentEnvironmentalImpact } from "./InvestmentEnvironmentalImpact";
+import { InvestmentHistory } from "./InvestmentHistory";
 
 interface IProps {
   investment: IInvestment;
@@ -43,7 +43,10 @@ export const Investment = (props: IProps) => {
           </Col>
 
           <Col xs={6}>
-            <HistoryChart />
+            <InvestmentHistory
+              investmentId={props.investment._id!}
+              minDate={new Date(props.investment.date)}
+            />
           </Col>
 
           <Col xs={3}>

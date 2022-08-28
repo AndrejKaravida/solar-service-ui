@@ -30,7 +30,7 @@ export const KwHUsage = (props: IProps) => {
   return (
     <Card style={{ padding: "15px", height: "100%" }}>
       <Typography sx={{ textAlign: "center" }}>
-        AVERAGE MONTHLY USAGE
+        1. AVERAGE MONTHLY USAGE
       </Typography>
       <Divider />
       <Box

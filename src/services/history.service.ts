@@ -2,10 +2,12 @@ import { SolarAppAxios } from "../axios/solar-app-axios";
 
 export const getProductionHistory = async (
   investmentId: string,
-  startDate: string,
-  endDate: string
+  startDate: Date,
+  endDate: Date
 ) => {
-  return await SolarAppAxios.get(
-    `/history/${investmentId}/${startDate}/${endDate}`
-  );
+  return await SolarAppAxios.post(`/history`, {
+    investmentId,
+    startDate,
+    endDate,
+  });
 };

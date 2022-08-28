@@ -1,69 +1,93 @@
-// import Chart from "react-apexcharts";
-import { Card, Divider, Typography } from "@mui/material";
+import Chart from "react-apexcharts";
+import { Modal } from "react-bootstrap";
+import { Button, Card } from "@mui/material";
+import { IHistory } from "../Models/IHistory";
+import { ApexOptions } from "apexcharts";
+import { useEffect, useState } from "react";
 
-export const HistoryChart = () => {
-  const series = [
-    {
-      name: "Minimum",
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-    },
-    {
-      name: "Maximum",
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-    },
-    {
-      name: "Average",
-      data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-    },
-  ];
+interface IProps {
+  history: IHistory[];
+  showModal: boolean;
+  onHide: () => void;
+}
 
-  const options = {
-    chart: {
-      height: 350,
-    },
+export const HistoryChart = (props: IProps) => {
+  const [series, setSeries] = useState<ApexAxisChartSeries>([]);
+  const [sortedHistory, setSortedHistory] = useState<IHistory[]>([]);
+
+  useEffect(() => {
+    const sortedHistory = props.history
+      .map((x) => ({ ...x, date: new Date(x.date) }))
+      .sort((a, b) => Number(a.date) - Number(b.date));
+    setSortedHistory(sortedHistory);
+    setSeries([
+      {
+        name: "Minimum",
+        data: sortedHistory.map((x) => +x.min.toFixed(2)),
+      },
+      {
+        name: "Maximum",
+        data: sortedHistory.map((x) => +x.max.toFixed(2)),
+      },
+      {
+        name: "Average",
+        data: sortedHistory.map((x) => +x.average.toFixed(2)),
+      },
+    ]);
+  }, [props.history]);
+
+  const getTitle = () => {
+    const firstDate = sortedHistory[0]?.date;
+    const secondDate = sortedHistory[sortedHistory.length - 1]?.date;
+
+    if (!firstDate || !secondDate) {
+      return "";
+    }
+
+    return (
+      "Production history: " +
+      firstDate.toLocaleDateString() +
+      " - " +
+      secondDate.toLocaleDateString()
+    );
+  };
+
+  const options: ApexOptions = {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%",
-        endingShape: "rounded",
+        dataLabels: {
+          position: "top",
+        },
       },
     },
     dataLabels: {
       enabled: false,
     },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: [
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-      ],
+    colors: ["#008FFB", "#00E396", "#CED4DC"],
+    title: {
+      text: getTitle(),
+      align: "left",
     },
     yaxis: {
       title: {
-        text: "kW",
+        text: "kW / h",
       },
-    },
-    fill: {
-      opacity: 1,
     },
   };
 
   return (
-    <Card sx={{ mb: "20px", p: "15px", height: "100%" }}>
-      <Typography sx={{ textAlign: "center" }}>PRODUCTION HISTORY:</Typography>
-      <Divider />
-      {/*<Chart options={options} series={series} type="bar" height={350} />*/}
-    </Card>
+    <Modal show={props.showModal} onHide={props.onHide}>
+      <Card sx={{ p: "20px" }}>
+        <Chart options={options} series={series} type={"area"} height={350} />
+        <Button
+          sx={{ display: "flex", ml: "auto", mr: "auto" }}
+          variant={"contained"}
+          onClick={props.onHide}
+        >
+          Close
+        </Button>
+      </Card>
+    </Modal>
   );
 };
