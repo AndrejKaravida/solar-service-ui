@@ -16,9 +16,20 @@ interface IProps {
 export const FinalCalculation = (props: IProps) => {
   const electricBill = getElectricBillFromKwhUsage(props.kWhUsage);
 
-  const savings =
-    +calculateElectricalUsageFor10Years(electricBill) -
-    +calculateInstallationPrice(props.numberOfPanels, props.solarPanelPrice);
+  const getSavings = () => {
+    const installationPrice = +calculateInstallationPrice(
+      props.numberOfPanels,
+      props.solarPanelPrice
+    );
+
+    if (installationPrice === 0) {
+      return 0;
+    }
+
+    const electricalUsage = +calculateElectricalUsageFor10Years(electricBill);
+
+    return electricalUsage - installationPrice;
+  };
 
   const withoutSolar = calculateElectricalUsageFor10Years(electricBill);
 
@@ -44,7 +55,9 @@ export const FinalCalculation = (props: IProps) => {
           </Typography>
         </Col>{" "}
         <Col>
-          <Typography className={styles.costSavings}>$ {savings}</Typography>
+          <Typography className={styles.costSavings}>
+            $ {getSavings()}
+          </Typography>
           <Typography className={styles.costDescription}>
             Total 10-year savings
           </Typography>

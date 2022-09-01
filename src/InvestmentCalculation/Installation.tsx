@@ -23,7 +23,7 @@ export const Installation = (props: IProps) => {
   };
 
   const hoursOfSunlightChangeHandler = (newHoursOfSunlight: number) => {
-    if (newHoursOfSunlight <= 0) {
+    if (newHoursOfSunlight < 0) {
       setErrorWithTimeOut(
         setHoursOfSunlightError,
         "Number of sunlight hours must be greater than 0"

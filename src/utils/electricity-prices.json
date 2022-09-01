@@ -5,5 +5,6 @@
   "fixedPrice": 140,
   "greenZoneMargin": 350,
   "blueZoneMargin": 1600,
-  "dollarCurrency": 118
+  "dollarCurrency": 118,
+  "averagePriceByKwh": 7
 }

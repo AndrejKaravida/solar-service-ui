@@ -36,7 +36,6 @@ export const InvestmentHistory = ({ investmentId, minDate }: IProps) => {
         value.endDate
       );
       setHistory(response.data);
-      console.log(response.data);
       setIsHistoryModalOpen(true);
     } catch (e) {
       console.log(e);
