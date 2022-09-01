@@ -2,7 +2,7 @@ import { Login } from "./Login/Login";
 import { Register } from "./Register/Register";
 import Amplify from "aws-amplify";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { MainScreen } from "./MainScreen/MainScreen";
+import { Home } from "./Home/Home";
 import { VerificationCode } from "./VerificationCode/VerificationCode";
 import { MyInvestments } from "./MyInvestments/MyInvestments";
 import styles from "./App.module.css";
@@ -16,6 +16,19 @@ import { AdminInvestments } from "./AdminInvestments/AdminInvestments";
 import { AddNewSolarPanel } from "./AdminPage/AddNewSolarPanel";
 import { InvestmentCalculation } from "./InvestmentCalculation/InvestmentCalculation";
 import { HeaderAdder } from "./Authentication/HeaderAdder";
+import {
+  allInvestmentsRoute,
+  baseRoute,
+  homeRoute,
+  howItWorksRoute,
+  investmentCalculationRoute,
+  loginRoute,
+  mapRoute,
+  myInvestmentsRoute,
+  newSolarPanelRoute,
+  registerRoute,
+  verificationRoute,
+} from "../routes";
 
 Amplify.configure({
   Auth: {
@@ -33,7 +46,7 @@ function App() {
         <Router>
           <Routes>
             <Route
-              path={"/"}
+              path={baseRoute}
               element={
                 <WithoutAuth>
                   <Login />
@@ -41,7 +54,7 @@ function App() {
               }
             />
             <Route
-              path={"/login"}
+              path={loginRoute}
               element={
                 <WithoutAuth>
                   <Login />
@@ -49,7 +62,7 @@ function App() {
               }
             />
             <Route
-              path={"/register"}
+              path={registerRoute}
               element={
                 <WithoutAuth>
                   <Register />
@@ -57,7 +70,7 @@ function App() {
               }
             />
             <Route
-              path={"/verification"}
+              path={verificationRoute}
               element={
                 <WithoutAuth>
                   <VerificationCode />
@@ -65,15 +78,15 @@ function App() {
               }
             />
             <Route
-              path={"/mainScreen"}
+              path={homeRoute}
               element={
                 <HeaderAdder>
-                  <MainScreen />
+                  <Home />
                 </HeaderAdder>
               }
             />
             <Route
-              path={"/myInvestments"}
+              path={myInvestmentsRoute}
               element={
                 <RequireAuth userRoles={[UserRole.USER]}>
                   <MyInvestments />
@@ -81,7 +94,7 @@ function App() {
               }
             />{" "}
             <Route
-              path={"/investmentCalculation/:city"}
+              path={investmentCalculationRoute}
               element={
                 <HeaderAdder>
                   <InvestmentCalculation />
@@ -89,7 +102,7 @@ function App() {
               }
             />{" "}
             <Route
-              path={"/investments"}
+              path={allInvestmentsRoute}
               element={
                 <RequireAuth userRoles={[UserRole.ADMIN]}>
                   <AdminInvestments />
@@ -97,7 +110,7 @@ function App() {
               }
             />{" "}
             <Route
-              path={"/addNewPanel"}
+              path={newSolarPanelRoute}
               element={
                 <RequireAuth userRoles={[UserRole.ADMIN]}>
                   <AddNewSolarPanel />
@@ -105,7 +118,7 @@ function App() {
               }
             />{" "}
             <Route
-              path={"/map"}
+              path={mapRoute}
               element={
                 <RequireAuth userRoles={[UserRole.ADMIN, UserRole.USER]}>
                   <Map />
@@ -113,7 +126,7 @@ function App() {
               }
             />
             <Route
-              path={"/howItWorks"}
+              path={howItWorksRoute}
               element={
                 <HeaderAdder>
                   <HowItWorks />

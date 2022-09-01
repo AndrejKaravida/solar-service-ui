@@ -4,6 +4,7 @@ import styles from "./VerificationCode.module.css";
 import { useNavigate } from "react-router-dom";
 import ReactCodeInput from "react-verification-code-input";
 import { toast } from "react-toastify";
+import { loginRoute } from "../../routes";
 
 export const VerificationCode = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export const VerificationCode = () => {
       if (userSub) {
         await cognitoVerifyUser(userSub, value);
         toast.success("Account confirmed successfully!");
-        navigate("/login");
+        navigate(loginRoute);
       }
     } catch (e: any) {
       toast.warning(e.message.toString());

@@ -6,6 +6,7 @@ import { useAuth } from "../Authentication/useAuth";
 import { UserRole } from "../Models/IUser";
 import { routes } from "./routes";
 import styles from "./Header.module.css";
+import { loginRoute, registerRoute } from "../../routes";
 
 interface IProps {
   userRole: UserRole;
@@ -18,7 +19,7 @@ export const Header = ({ userRole }: IProps) => {
   const logout = async () => {
     try {
       await auth.signOut();
-      navigate("/login");
+      navigate(loginRoute);
       toast.success("Successfully logged out");
     } catch (e: any) {
       toast.error("Error while signing out");
@@ -26,11 +27,11 @@ export const Header = ({ userRole }: IProps) => {
   };
 
   const login = () => {
-    navigate("/login");
+    navigate(loginRoute);
   };
 
   const register = () => {
-    navigate("/register");
+    navigate(registerRoute);
   };
 
   return (

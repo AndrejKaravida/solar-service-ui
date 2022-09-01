@@ -1,0 +1,11 @@
+export const baseRoute = "/";
+export const loginRoute = "/login";
+export const registerRoute = "/register";
+export const verificationRoute = "/verification";
+export const homeRoute = "/home";
+export const myInvestmentsRoute = "/my-investments";
+export const investmentCalculationRoute = "/investment/:city";
+export const allInvestmentsRoute = "/investments";
+export const newSolarPanelRoute = "/new";
+export const mapRoute = "/map";
+export const howItWorksRoute = "/how-it-works";

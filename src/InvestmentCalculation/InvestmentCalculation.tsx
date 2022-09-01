@@ -24,6 +24,7 @@ import { useAuth } from "../Authentication/useAuth";
 import { ICity } from "../Models/ICity";
 import { FinalCalculation } from "./FinalCalculation";
 import { getMetric } from "../utils/impactUtils";
+import { homeRoute, myInvestmentsRoute } from "../../routes";
 
 export const InvestmentCalculation = () => {
   const [city, setCity] = useState<ICity | null>(null);
@@ -45,11 +46,11 @@ export const InvestmentCalculation = () => {
       if (cityName) {
         const verifiedCity = await verifyCity(cityName);
         if (!verifiedCity) {
-          navigate("/mainScreen");
+          navigate(homeRoute);
         }
         setCity(verifiedCity);
       } else {
-        navigate("/mainScreen");
+        navigate(homeRoute);
       }
     };
 
@@ -112,7 +113,7 @@ export const InvestmentCalculation = () => {
     toast.success(
       "Congratulations! You can view your investment under My Investments."
     );
-    navigate("/myInvestments");
+    navigate(myInvestmentsRoute);
   };
 
   const getInvestmentPower = (): number => {

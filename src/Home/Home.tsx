@@ -6,7 +6,7 @@ import { verifyCity } from "../utils/verifyCity";
 import { useNavigate } from "react-router-dom";
 import { ICity } from "../Models/ICity";
 
-export const MainScreen = () => {
+export const Home = () => {
   const [city, setCity] = useState<ICity | null>(null);
   const [cityName, setCityName] = useState<string>("");
 
@@ -17,7 +17,7 @@ export const MainScreen = () => {
       const verifiedCity = await verifyCity(cityName);
       if (verifiedCity) {
         setCity(verifiedCity);
-        navigate("/investmentCalculation/" + verifiedCity.name);
+        navigate("/investment/" + verifiedCity.name);
       }
     }
   };

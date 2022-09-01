@@ -15,6 +15,7 @@
     "@types/jest": "^26.0.24",
     "@types/node": "^12.20.37",
     "@types/react-bootstrap": "^0.32.28",
+    "apexcharts": "^3.35.5",
     "aws-amplify": "^4.3.10",
     "axios": "^0.21.4",
     "bootstrap": "^5.1.3",

@@ -5,6 +5,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { IInvestment } from "../Models/IInvestment";
 import { getAllUserInvestments } from "../services/investment.service";
 import { useNavigate } from "react-router-dom";
+import { homeRoute } from "../../routes";
 
 export const MyInvestments = () => {
   const [accordionOpen, setAccordionOpen] = useState(0);
@@ -44,7 +45,7 @@ export const MyInvestments = () => {
           <Button
             sx={{ mx: "auto", display: "flex", mt: "15px" }}
             variant={"contained"}
-            onClick={() => navigate("/mainScreen")}
+            onClick={() => navigate(homeRoute)}
           >
             Back to Main Screen
           </Button>

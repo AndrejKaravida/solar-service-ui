@@ -1,34 +1,41 @@
 import { UserRole } from "../Models/IUser";
+import {
+  allInvestmentsRoute,
+  homeRoute,
+  howItWorksRoute,
+  mapRoute,
+  myInvestmentsRoute,
+} from "../../routes";
 
 export const routes = [
   {
-    name: "Main Screen",
-    navigationPath: "/mainScreen",
+    name: "Home",
+    navigationPath: homeRoute,
     userRoles: [UserRole.USER, UserRole.UNAUTHORIZED],
   },
   {
     name: "Add new Panel",
-    navigationPath: "/addNewPanel",
+    navigationPath: "/new",
     userRoles: [UserRole.ADMIN],
   },
   {
     name: "Investments",
-    navigationPath: "/investments",
+    navigationPath: allInvestmentsRoute,
     userRoles: [UserRole.ADMIN],
   },
   {
     name: "My Investments",
-    navigationPath: "/myInvestments",
+    navigationPath: myInvestmentsRoute,
     userRoles: [UserRole.USER],
   },
   {
     name: "Map",
-    navigationPath: "/map",
+    navigationPath: mapRoute,
     userRoles: [UserRole.USER, UserRole.ADMIN],
   },
   {
     name: "How it works",
-    navigationPath: "/howItWorks",
+    navigationPath: howItWorksRoute,
     userRoles: [UserRole.USER, UserRole.ADMIN, UserRole.UNAUTHORIZED],
   },
 ];
