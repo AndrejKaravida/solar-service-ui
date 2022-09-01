@@ -24,7 +24,7 @@ import { useAuth } from "../Authentication/useAuth";
 import { ICity } from "../Models/ICity";
 import { FinalCalculation } from "./FinalCalculation";
 import { getMetric } from "../utils/impactUtils";
-import { homeRoute, myInvestmentsRoute } from "../../routes";
+import { homeRoute, myInvestmentsRoute } from "../routes";
 
 export const InvestmentCalculation = () => {
   const [city, setCity] = useState<ICity | null>(null);

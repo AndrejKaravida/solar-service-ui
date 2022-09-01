@@ -2,7 +2,7 @@ import { useAuth } from "./useAuth";
 import { Navigate, useLocation } from "react-router-dom";
 import { UserRole } from "../Models/IUser";
 import { Header } from "../Header/Header";
-import { homeRoute, newSolarPanelRoute } from "../../routes";
+import { homeRoute, newSolarPanelRoute } from "../routes";
 
 export const WithoutAuth = ({ children }: { children: JSX.Element }) => {
   let auth = useAuth();

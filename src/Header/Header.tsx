@@ -6,7 +6,7 @@ import { useAuth } from "../Authentication/useAuth";
 import { UserRole } from "../Models/IUser";
 import { routes } from "./routes";
 import styles from "./Header.module.css";
-import { loginRoute, registerRoute } from "../../routes";
+import { loginRoute, registerRoute } from "../routes";
 
 interface IProps {
   userRole: UserRole;

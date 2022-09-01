@@ -6,7 +6,7 @@ import styles from "./Register.module.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { cognitoRegister } from "../services/authentication.service";
-import { loginRoute, verificationRoute } from "../../routes";
+import { loginRoute, verificationRoute } from "../routes";
 
 export const Register = () => {
   const [firstName, setFirstName] = useState("");

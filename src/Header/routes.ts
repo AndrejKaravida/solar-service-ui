@@ -5,7 +5,7 @@ import {
   howItWorksRoute,
   mapRoute,
   myInvestmentsRoute,
-} from "../../routes";
+} from "../routes";
 
 export const routes = [
   {

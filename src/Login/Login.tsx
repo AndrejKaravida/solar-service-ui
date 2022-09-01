@@ -6,7 +6,7 @@ import styles from "./Login.module.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Authentication/useAuth";
-import { registerRoute } from "../../routes";
+import { registerRoute } from "../routes";
 
 export const Login = () => {
   const [email, setEmail] = useState("");

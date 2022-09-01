@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { UserRole } from "../Models/IUser";
 import { Container } from "react-bootstrap";
-import { homeRoute, loginRoute, newSolarPanelRoute } from "../../routes";
+import { homeRoute, loginRoute, newSolarPanelRoute } from "../routes";
 
 interface IProps {
   userRoles: UserRole[];

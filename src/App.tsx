@@ -28,7 +28,7 @@ import {
   newSolarPanelRoute,
   registerRoute,
   verificationRoute,
-} from "../routes";
+} from "./routes";
 
 Amplify.configure({
   Auth: {

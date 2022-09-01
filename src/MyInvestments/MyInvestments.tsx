@@ -5,7 +5,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { IInvestment } from "../Models/IInvestment";
 import { getAllUserInvestments } from "../services/investment.service";
 import { useNavigate } from "react-router-dom";
-import { homeRoute } from "../../routes";
+import { homeRoute } from "../routes";
 
 export const MyInvestments = () => {
   const [accordionOpen, setAccordionOpen] = useState(0);
