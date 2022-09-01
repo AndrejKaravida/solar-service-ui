@@ -1,37 +1,30 @@
-export const greenZonePrice = 6.4; //rsd per kWh
-export const blueZonePrice = 9.1; //rsd per kWh
-export const redZonePrice = 19.2; //rsd per kWh
-
-export const fixedPrice = 140; //rsd
-
-export const greenZoneMargin = 350; // 0 - 350 kWh
-export const blueZoneMargin = 1600; // 351 - 1600 kWh
-
-const dollarCurrency = 118; //1 dollar = 118 rsd
+import electricityPrices from "./electricity-prices.json";
 
 export const getElectricBillFromKwhUsage = (kwHUsage: number): number => {
   const energySpentInGreenZone =
-    greenZoneMargin > kwHUsage ? kwHUsage : greenZoneMargin;
+    electricityPrices.greenZoneMargin > kwHUsage
+      ? kwHUsage
+      : electricityPrices.greenZoneMargin;
 
   const energySpentInBlueZone =
-    kwHUsage > blueZoneMargin
-      ? blueZoneMargin - greenZoneMargin
-      : kwHUsage > greenZoneMargin
-      ? kwHUsage - greenZoneMargin
+    kwHUsage > electricityPrices.blueZoneMargin
+      ? electricityPrices.blueZoneMargin - electricityPrices.greenZoneMargin
+      : kwHUsage > electricityPrices.greenZoneMargin
+      ? kwHUsage - electricityPrices.greenZoneMargin
       : 0;
 
   const energySpentInRedZone =
-    kwHUsage > blueZoneMargin
+    kwHUsage > electricityPrices.blueZoneMargin
       ? kwHUsage - energySpentInBlueZone - energySpentInGreenZone
       : 0;
 
   const priceInRsD =
-    energySpentInGreenZone * greenZonePrice +
-    energySpentInBlueZone * blueZonePrice +
-    energySpentInRedZone * redZonePrice +
-    fixedPrice;
+    energySpentInGreenZone * electricityPrices.greenZonePrice +
+    energySpentInBlueZone * electricityPrices.blueZonePrice +
+    energySpentInRedZone * electricityPrices.redZonePrice +
+    electricityPrices.fixedPrice;
 
-  return +(priceInRsD / dollarCurrency).toFixed(0);
+  return +(priceInRsD / electricityPrices.dollarCurrency).toFixed(0);
 };
 
 export const calculateInvestmentPowerInKwH = (

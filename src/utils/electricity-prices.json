@@ -1,0 +1,9 @@
+{
+  "greenZonePrice": 6.4,
+  "blueZonePrice": 9.1,
+  "redZonePrice": 19.2,
+  "fixedPrice": 140,
+  "greenZoneMargin": 350,
+  "blueZoneMargin": 1600,
+  "dollarCurrency": 118
+}
